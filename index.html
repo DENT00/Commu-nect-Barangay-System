@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commu-nect | Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="top-nav">
+        <div class="logo-area">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <strong>Commu-nect</strong><br>
+                <span>Gen T. De Leon</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-wrapper">
+        <div class="auth-container">
+            <div class="center-logo">
+                <div class="logo-icon">C</div>
+                <div class="logo-text">
+                    <strong>Commu-nect</strong><br>
+                    <span>Portal Access</span>
+                </div>
+            </div>
+            
+            <div id="register-section">
+                <h2>Create Account</h2>
+                <input type="email" id="reg-email" placeholder="Email Address" required>
+                <input type="password" id="reg-password" placeholder="Password" required>
+                <select id="reg-role" required>
+                    <option value="" disabled selected>Select User Type</option>
+                    <option value="resident">Resident</option>
+                    <option value="non-resident">Non-Resident</option>
+                </select>
+                <button class="btn-green btn-full" onclick="registerUser()">Register</button>
+                <p id="timer-display" class="timer-text"></p>
+            </div>
+
+            <hr class="divider">
+
+            <div id="login-section">
+                <h2>Login</h2>
+                <input type="email" id="login-email" placeholder="Email Address" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button class="btn-green btn-full" onclick="loginUser()">Login</button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="js/authorization.js"></script>
+</body>
+</html>

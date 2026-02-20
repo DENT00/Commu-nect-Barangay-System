@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Forms | Commu-nect</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="top-nav">
+        <div class="logo-area">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <strong>Commu-nect</strong><br>
+                <span>Gen T. De Leon</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="#">News Feed</a>
+            <a href="#">Announcement</a>
+            <a href="request-forms.html" class="active">Request Forms</a>
+            <a href="#" onclick="logoutUser()" style="color: #FFCDD2; font-weight: 600;">Logout</a>
+        </nav>
+    </header>
+
+    <main class="form-page-container">
+        <section class="instructions-section">
+            <h2>Request Form Instructions</h2>
+            <p>Please read the following guidelines carefully before filling out this form.</p>
+            
+            <div class="instruction-block">
+                <strong>1. How to Fill Out the Form</strong>
+                <ul>
+                    <li>• Complete all required fields accurately.</li>
+                    <li>• Make sure your name, address, age, and school information are correct.</li>
+                    <li>• Double-check all information before clicking Submit to avoid delays in processing.</li>
+                </ul>
+            </div>
+
+            <div class="instruction-block">
+                <strong>2. Required Documents</strong>
+                <p>Before your request can be processed, you must prepare and bring the necessary supporting documents to the barangay office. These may include:</p>
+                <ul>
+                    <li>• Original and photocopy of your Birth Certificate</li>
+                    <li>• Valid ID (Barangay ID, School ID, or any government-issued ID)</li>
+                </ul>
+                <p><em>*Incomplete documents may delay the release of your requested form.</em></p>
+            </div>
+
+            <div class="instruction-block">
+                <strong>3. How to Get Your Requested Document</strong>
+                <p>After submitting this online request, wait for confirmation that your document is ready.<br>
+                Bring all required documents to the barangay office for verification before the clearance or requested form is released.</p>
+            </div>
+
+            <div class="instruction-block">
+                <strong>4. How to Know if It's Ready for Pick-Up</strong>
+                <p>You will be notified once your requested document is ready:<br>
+                • Through your registered Gmail account, or<br>
+                • Through your provided cell phone number<br><br>
+                Please wait for the official notification before going to the barangay office.<br>
+                For questions or concerns, you may contact the barangay office directly.</p>
+            </div>
+
+            <h2 style="margin-top: 30px; font-size: 22px;">Request a form</h2>
+        </section>
+
+        <section class="form-section">
+            <div class="tabs">
+                <button class="tab-btn" onclick="openTab(event, 'brgy-id')">Barangay ID</button>
+                <button class="tab-btn active" onclick="openTab(event, 'clearance')">Clearance</button>
+                <button class="tab-btn" onclick="openTab(event, 'business')">Business Permit</button>
+                <button class="tab-btn" onclick="openTab(event, 'jobseeker')">First Time Jobseeker/Oath of Undertaking</button>
+            </div>
+            
+            <div class="form-card">
+                <form id="clearance" class="tab-content active">
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="First name, MI, Last name">
+                        </div>
+                        <div class="input-group">
+                            <label>Address</label>
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <div class="input-group">
+                            <label>Age</label>
+                            <input type="text" style="width: 80px;">
+                        </div>
+                        <div class="input-group">
+                            <label>B-Day</label>
+                            <input type="text" placeholder="MM/DD/YYYY">
+                        </div>
+                        <div class="input-group">
+                            <label>Anong taon tumira sa Gen. T</label>
+                            <input type="text" placeholder="YYYY" style="width: 120px;">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-1">
+                        <div class="input-group">
+                            <label>Saan gagamitin:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label>Pasyente:</label>
+                            <input type="text">
+                        </div>
+                        <div class="input-group">
+                            <label>Namayapa:</label>
+                            <input type="text">
+                        </div>
+                        <div class="input-group">
+                            <label>Estudyante:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-green" style="margin-top: 20px;">Submit</button>
+                </form>
+
+                <form id="brgy-id" class="tab-content"><p>Barangay ID Form goes here...</p></form>
+                <form id="business" class="tab-content"><p>Business Permit Form goes here...</p></form>
+                <form id="jobseeker" class="tab-content"><p>Jobseeker Form goes here...</p></form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        </footer>
+
+    <script src="js/main.js"></script>
+    <script type="module" src="js/authorization.js"></script>
+</body>
+</html>
