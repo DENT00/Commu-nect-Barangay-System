@@ -4,4 +4,7 @@
 * **Catacutan, Elijah** - Frontend Development (Request Forms & Form Validation)
 * **Conejos, Rainier Martin** - Backend Database (Firestore Setup & Reports Logic)
 * **Soliman, Sean Andrew Kurt** - Backend Security (Firebase Auth & RBAC)
-* **Torralba, Marcus Benedict T.** - QA Testing & Deployment Pipeline
+* **Torralba, Marcus Benedict T.** - Login, features of Admin, Residents, Non Residentics(Firebase Auth)
+
+
+branch check*
