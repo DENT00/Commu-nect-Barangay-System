@@ -42,16 +42,108 @@ body {
 .nav-links a { color: var(--bg-white); text-decoration: none; font-size: 14px; font-weight: 400; }
 .nav-links a.active { font-weight: 600; border-bottom: 2px solid var(--bg-white); padding-bottom: 2px;}
 
-/* --- Auth Portal --- */
-.auth-wrapper { display: flex; justify-content: center; align-items: center; flex-grow: 1; padding: 40px 20px; }
-.auth-container { background: var(--bg-white); padding: 40px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #EAEAEA; }
-.center-logo { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; }
-.center-logo .logo-text span { color: var(--text-light); }
-.auth-container h2 { font-size: 20px; font-weight: 600; text-align: center; margin-bottom: 20px; }
-.auth-container input, .auth-container select { width: 100%; padding: 12px 15px; margin: 8px 0 15px; border: 1px solid #EAEAEA; border-radius: 8px; box-sizing: border-box; font-size: 13px; font-family: 'Poppins', sans-serif; background-color: #FAFAFA; }
-.auth-container input:focus, .auth-container select:focus { outline: none; border-color: var(--primary-green); }
-.divider { margin: 25px 0; border: none; border-top: 1px solid #EAEAEA; }
-.timer-text { color: #E74C3C; text-align: center; font-size: 13px; margin-top: 15px; font-weight: 500;}
+
+/* --- Pixel-Perfect Auth Layout (Sign Up / Login) --- */
+.auth-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-white);
+    position: relative;
+}
+
+.auth-content-box {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+/* Left Panel (Green Gradient) */
+.auth-left-panel {
+    /* widened to match attached design proportions */
+    flex: 0 0 50%;
+    background: linear-gradient(90deg, #68B234 0%, #99D97B 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.auth-brand { text-align: center; z-index: 2; /* no extra padding so logo is centered */ }
+.brand-logo-icon {
+    background: var(--dark-green); color: #8BE466; font-size: 65px; font-weight: bold;
+    width: 130px; height: 130px; line-height: 130px; border-radius: 25px;
+    margin: 0 auto 20px auto;
+}
+.auth-brand h1 { font-size: 32px; font-weight: 500; margin-bottom: 15px; }
+.auth-brand p { font-size: 13px; font-weight: 500; line-height: 1.4; opacity: 0.95; }
+
+/* The White slanted divider */
+.wave-divider {
+    position: absolute; right: -10px; top: 0; height: 100%; width: 300px; /* extend so diagonal meets bottom */
+    z-index: 1;
+}
+.wave-divider svg { width: 100%; height: 100%; }
+/* Right Panel (The Form) */
+.auth-right-panel {
+    flex: 1; display: flex; align-items: center; /* keep form left-aligned in panel */ padding: 40px 80px;
+}
+.form-container { width: 100%; max-width: 750px; }
+/* narrower variant for login to resemble screenshot */
+#login-form { max-width: 400px; }
+
+/* make role radios vertical in login form */
+#login-form .role-radios { flex-direction: column; gap: 8px; }
+.form-container h2 { font-size: 26px; font-weight: 500; margin-bottom: 25px; color: #000; }
+
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+
+.input-item label { display: block; font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
+.input-item input[type="text"], .input-item input[type="email"], 
+.input-item input[type="tel"], .input-item input[type="password"] {
+    width: 100%; padding: 10px; border: 1px solid #CCC; border-radius: 4px; font-size: 13px; outline: none; font-family: 'Poppins', sans-serif; background-color: #FAFAFA;
+}
+.input-item input:focus { border-color: var(--primary-green); background-color: var(--bg-white); }
+
+/* Bottom Split Section */
+.form-split-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.bday-inputs { display: flex; gap: 10px; }
+.bday-inputs input { width: 30%; }
+
+.split-left .input-item { margin-bottom: 15px; }
+.btn-done {
+    background-color: #81C038; color: white; border: none; padding: 10px 35px;
+    border-radius: 5px; font-size: 14px; cursor: pointer; margin-top: 5px; font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+.btn-done:hover { background-color: var(--dark-green); }
+.login-link { margin-top: 15px; font-size: 12px; }
+.login-link a { color: #5D9CEC; text-decoration: none; }
+
+/* login form link tweaks */
+#login-form .login-link { margin-top: 20px; }
+#login-form .login-link + .login-link { margin-top: 5px; }
+
+.role-radios { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+.role-radios label { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: var(--text-light); font-weight: normal; cursor: pointer;}
+.role-radios input { margin: 0; cursor: pointer;}
+
+.upload-desc { font-size: 9px; color: #888; margin-bottom: 10px; line-height: 1.3; }
+.attachment-text { display: block; font-size: 11px; font-weight: 600; margin-bottom: 5px; color: var(--text-main);}
+.file-border-box { border: 1px solid #CCC; border-radius: 4px; padding: 8px; background: #FAFAFA; }
+.file-border-box input[type="file"] { font-size: 11px; font-family: 'Poppins', sans-serif; }
+
+/* The Bottom Green Footer */
+.auth-bottom-footer {
+    height: 40px;
+    background-color: var(--primary-green);
+    width: 100%;
+}
+
 
 /* --- Dashboard --- */
 .gray-banner { background-color: var(--gray-banner); height: 220px; width: 100%; }

@@ -7,50 +7,115 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header class="top-nav">
-        <div class="logo-area">
-            <div class="logo-icon">C</div>
-            <div class="logo-text">
-                <strong>Commu-nect</strong><br>
-                <span>Gen T. De Leon</span>
-            </div>
-        </div>
-    </header>
-
-    <main class="auth-wrapper">
-        <div class="auth-container">
-            <div class="center-logo">
-                <div class="logo-icon">C</div>
-                <div class="logo-text">
-                    <strong>Commu-nect</strong><br>
-                    <span>Portal Access</span>
+    <main class="auth-page-wrapper">
+        <div class="auth-content-box">
+            
+            <div class="auth-left-panel">
+                <div class="auth-brand">
+                    <div class="brand-logo-icon">C</div>
+                    <h1>Commu-nect</h1>
+                    <p>Barangay Gen T. De Leon gives you a<br>faster response that you deserve!</p>
+                </div>
+                <div class="wave-divider">
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <!-- straight diagonal edge for signup image -->
+                        <path d="M100,0 L60,100 L100,100 L100,0 Z" fill="#FFFFFF"></path>
+                    </svg>
                 </div>
             </div>
+
+           <div class="auth-right-panel">
+    
+    <div class="form-container" id="signup-form">
+        <h2>Sign Up</h2>
+        
+        <div class="form-row-3">
+            <div class="input-item"><label>First name</label><input type="text" id="reg-firstname"></div>
+            <div class="input-item"><label>Middle Initial</label><input type="text" id="reg-mi"></div>
+            <div class="input-item"><label>Last name</label><input type="text" id="reg-lastname"></div>
+        </div>
+
+        <div class="form-row-2">
+            <div class="input-item"><label>Email</label><input type="email" id="reg-email"></div>
+            <div class="input-item"><label>Contact no.</label><input type="tel" id="reg-contact"></div>
+        </div>
+
+        <div class="form-split-bottom">
             
-            <div id="register-section">
-                <h2>Create Account</h2>
-                <input type="email" id="reg-email" placeholder="Email Address" required>
-                <input type="password" id="reg-password" placeholder="Password" required>
-                <select id="reg-role" required>
-                    <option value="" disabled selected>Select User Type</option>
-                    <option value="resident">Resident</option>
-                    <option value="non-resident">Non-Resident</option>
-                </select>
-                <button class="btn-green btn-full" onclick="registerUser()">Register</button>
-                <p id="timer-display" class="timer-text"></p>
+            <div class="split-left">
+                <div class="input-item">
+                    <label>Birthday</label>
+                    <div class="bday-inputs">
+                        <input type="text" id="reg-mm" placeholder="MM">
+                        <input type="text" id="reg-dd" placeholder="DD">
+                        <input type="text" id="reg-yyyy" placeholder="YYYY">
+                    </div>
+                </div>
+                <div class="input-item">
+                    <label>Password</label>
+                    <input type="password" id="reg-password">
+                </div>
+                <div class="input-item">
+                    <label>Re-type Password</label>
+                    <input type="password" id="reg-confirm-password">
+                </div>
+                
+                <button class="btn-done" onclick="registerUser()">Done</button>
+                <p class="login-link"><a href="#" onclick="toggleAuth(event)">Already have an account. Login?</a></p>
             </div>
 
-            <hr class="divider">
-
-            <div id="login-section">
-                <h2>Login</h2>
-                <input type="email" id="login-email" placeholder="Email Address" required>
-                <input type="password" id="login-password" placeholder="Password" required>
-                <button class="btn-green btn-full" onclick="loginUser()">Login</button>
+            <div class="split-right">
+                <div class="input-item">
+                    <label>Role</label>
+                    <div class="role-radios">
+                        <label><input type="radio" name="reg-role" value="Resident"> Resident</label>
+                        <label><input type="radio" name="reg-role" value="Non-Resident"> Non Resident</label>
+                        <label style="width: 100%;"><input type="radio" name="reg-role" value="Barangay Official"> Barangay Official</label>
+                    </div>
+                </div>
+                
+                <div class="input-item upload-box-wrapper">
+                    <label>Upload proof of residency</label>
+                    <p class="upload-desc">You can optionally add up to 3 attachments containing proof of residency like, birth certificate, Barangay ID, National ID. The file extension must be one of png, jpeg, jpg, or pdf.</p>
+                    <span class="attachment-text">Attachment #</span>
+                    <div class="file-border-box">
+                        <input type="file" id="reg-proof" accept=".png,.jpeg,.jpg,.pdf">
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
 
+    <div class="form-container" id="login-form" style="display: none;">
+        <h2>Login</h2>
+
+        <div class="input-item">
+            <label>Email</label>
+            <input type="email" id="login-email">
+        </div>
+
+        <div class="input-item">
+            <label>Password</label>
+            <input type="password" id="login-password">
+        </div>
+
+        <div class="input-item">
+            <label>My role is:</label>
+            <div class="role-radios">
+                <label><input type="radio" name="login-role" value="Barangay Official"> Barangay Official</label>
+                <label><input type="radio" name="login-role" value="Resident"> Resident</label>
+            </div>
+        </div>
+
+        <button class="btn-done" onclick="loginUser()">Done</button>
+        <p class="login-link"><a href="#" onclick="toggleAuth(event)">I don't have an account. Register?</a></p>
+        <p class="login-link"><a href="#">Forgot password?</a></p>
+    </div>
+</div>
+
+        </div>
+        <div class="auth-bottom-footer"></div>
+    </main>
     <script type="module" src="js/authorization.js"></script>
 </body>
 </html>

@@ -115,3 +115,24 @@ window.logoutUser = async () => {
         console.error("Logout Error:", error);
     }
 };
+
+// --- Switch between Login and Sign Up UI ---
+function toggleAuth(event) {
+    // Stop the link from jumping to the top of the page
+    event.preventDefault(); 
+
+    const signupForm = document.getElementById('signup-form');
+    const loginForm = document.getElementById('login-form');
+
+    // If Sign Up is currently hidden, show it and hide Login
+    if (signupForm.style.display === 'none') {
+        signupForm.style.display = 'block';
+        loginForm.style.display = 'none';
+    } else {
+        // Otherwise, hide Sign Up and show Login
+        signupForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    }
+}
+// Make function globally available if you are using type="module"
+window.toggleAuth = toggleAuth;
