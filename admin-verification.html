@@ -6,6 +6,7 @@
     <title>Admin Verification - Commu-nect</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/guard.js"></script>
 </head>
 <body>
 
@@ -16,20 +17,18 @@
                 <strong>Commu-nect</strong><br>
                 <span>Gen T. De Leon</span>
             </div>
-
         </div>
-        <<div class="nav-links">
-    <a href="dashboard.html">Home</a>
-    <a href="community-network.html">Community Network</a>
-    <a href="announcement.html">Announcement</a>
-    <a href="request-forms.html">Request Forms</a>
-    
-    <a href="#" id="logout-btn" onclick="logoutUser(event)"><i class="fas fa-power-off"></i> Log out</a>
-</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="community-network.html">Community Network</a>
+            <a href="announcement.html">Announcement</a>
+            <a href="request-forms.html">Request Forms</a>
+            <a href="#" id="logout-btn" onclick="logoutUser(event)"><i class="fas fa-power-off"></i> Log out</a>
+        </div>
     </nav>
 
     <div class="dashboard-container">
-        <h1>First Time Jobseeker/Oath of Undertaking</h1>
+        <h1>Account Verification</h1>
 
         <div class="table-card">
             <table class="verification-table">
@@ -48,34 +47,7 @@
                     </tr>
                 </thead>
                 <tbody id="verification-table-body">
-                    <tr>
-                        <td>00</td>
-                        <td>Juan</td>
-                        <td>Milano</td>
-                        <td>Dela Cruz</td>
-                        <td>jmdelacruz456@gmail.com</td>
-                        <td>09543281290</td>
-                        <td>05/06/1978</td>
-                        <td>Resident</td>
-                        <td><button class="file-btn" onclick="openImageModal()">.jpeg</button></td>
-                        <td class="approval-actions">
-                            <i class="far fa-check-circle action-icon approve" onclick="openApprovalModal()"></i>
-                            <i class="far fa-times-circle action-icon reject"></i>
-                        </td>
-                    </tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
-                    <tr><td>00</td><td>###########</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="approval-actions"><i class="far fa-check-circle action-icon approve"></i><i class="far fa-times-circle action-icon reject"></i></td></tr>
+                    <tr><td colspan="10" style="text-align:center;">Loading pending accounts...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -131,22 +103,22 @@
     <div id="image-modal" class="modal-overlay">
         <div class="modal-box image-modal-box">
             <span class="close-btn" onclick="closeModals()">&times;</span>
-            <img src="https://via.placeholder.com/400x600.png?text=Uploaded+Document" alt="Uploaded Document" class="modal-doc-image">
-            <p class="modal-filename">file: birthcert.jpeg</p>
+            <img id="modal-doc-image" src="" alt="Uploaded Document" class="modal-doc-image" style="max-width: 100%; max-height: 70vh;">
+            <p class="modal-filename">Proof of Residency</p>
         </div>
     </div>
 
     <div id="approval-modal" class="modal-overlay">
         <div class="modal-box approval-modal-box">
             <span class="close-btn" onclick="closeModals()">&times;</span>
-            <h3>Access option for residency for<br>Juan M. Dela Cruz</h3>
+            <h3>Access option for residency for<br><span id="approval-modal-name"></span></h3>
 
             <div class="approval-option">
                 <p>
                     <strong>For residents access:</strong>
                     All resident user access like announcements, community network, request forms.
                 </p>
-                <button class="btn-green btn-small">Yes</button>
+                <button class="btn-green btn-small" onclick="approveUser('Resident')">Yes</button>
             </div>
 
             <div class="approval-option">
@@ -154,24 +126,12 @@
                     <strong>For non residents access:</strong>
                     Only community network and announcements.
                 </p>
-                <button class="btn-green btn-small">Yes</button>
+                <button class="btn-green btn-small" onclick="approveUser('Non-Resident')">Yes</button>
             </div>
         </div>
     </div>
 
-    <script>
-        function openImageModal()    { document.getElementById('image-modal').style.display    = 'flex'; }
-        function openApprovalModal() { document.getElementById('approval-modal').style.display = 'flex'; }
-        function closeModals() {
-            document.getElementById('image-modal').style.display    = 'none';
-            document.getElementById('approval-modal').style.display = 'none';
-        }
-        // Close modal when clicking outside the box
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) closeModals();
-            });
-        });
-    </script>
+    <script type="module" src="js/authorization.js"></script>
+    <script type="module" src="js/admin.js"></script>
 </body>
 </html>
