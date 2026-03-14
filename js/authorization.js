@@ -1,6 +1,6 @@
 // Import Firebase functions via CDN (Version 12.9.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -16,10 +16,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- Helper Function: Compress Image before saving ---
 function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.6) {
     return new Promise((resolve, reject) => {
-        // PDFs cannot be drawn on canvas — store as base64 directly (smaller files only)
         if (file.type === "application/pdf") {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -62,7 +60,6 @@ function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.6) {
     });
 }
 
-// --- Process 1.0: Account Registration ---
 window.registerUser = async () => {
     const fName = document.getElementById('reg-firstname').value.trim();
     const mi = document.getElementById('reg-mi').value.trim();
@@ -82,32 +79,29 @@ window.registerUser = async () => {
     const fileInput = document.getElementById('reg-proof');
     const file = fileInput.files[0];
 
+    if (file) {
+        const fileSizeMB = file.size / (1024 * 1024);
+        const limitMB = 5; 
+        if (fileSizeMB > limitMB) {
+            alert(`The file is too large (${fileSizeMB.toFixed(2)}MB). Please upload an image smaller than ${limitMB}MB.`);
+            fileInput.value = ""; 
+            return;
+        }
+    }
+
     if (!fName || !lName || !email || !password) return alert("Please fill in all required fields.");
     if (password !== confirmPassword) return alert("Passwords do not match!");
     if (role === "Resident" && !file) return alert("Proof of residency is required for Residents.");
 
-    // ✅ FIX: Track the created user so we can clean up on ANY failure
     let createdUser = null;
 
     try {
-        // STEP 1: Create Auth user
-        console.log("Step 1: Creating Auth user...");
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         createdUser = userCredential.user;
-        console.log("Auth user created. UID:", createdUser.uid);
-
-        // STEP 2: Compress image (if provided)
-        console.log("Step 2: Processing image...");
+        
         let proofString = "";
         if (file) {
-            // ✅ FIX: Check file size BEFORE compressing — Firestore has a 1MB per-document limit
-            if (file.size > 5 * 1024 * 1024) {
-                throw new Error("File is too large. Please upload an image under 5MB.");
-            }
             proofString = await compressImage(file);
-            console.log("Image compressed. Base64 length:", proofString.length);
-
-            // ✅ FIX: Warn if compressed result is still too large for Firestore (1MB doc limit)
             if (proofString.length > 900000) {
                 throw new Error("Even after compression, the image is too large to store. Please use a smaller image.");
             }
@@ -115,8 +109,6 @@ window.registerUser = async () => {
 
         const status = (role === "Resident") ? "pending" : "approved";
 
-        // STEP 3: Save to Firestore
-        console.log("Step 3: Saving data to Firestore...");
         await setDoc(doc(db, "users", createdUser.uid), {
             firstName: fName,
             middleInitial: mi,
@@ -129,70 +121,49 @@ window.registerUser = async () => {
             verificationStatus: status,
             createdAt: new Date()
         });
-        console.log("Firestore document saved successfully!");
 
-        // STEP 4: Send verification email
-        console.log("Step 4: Sending verification email...");
-        await sendEmailVerification(createdUser);
-        console.log("Verification email sent!");
+        const actionCodeSettings = {
+            url: window.location.origin + '/index.html', 
+            handleCodeInApp: false
+        };
+
+        await sendEmailVerification(createdUser, actionCodeSettings);
 
         alert("Account created! A verification email has been sent. You have 3 minutes to verify.");
         startVerificationTimer(createdUser);
-
+        
     } catch (error) {
-        // ✅ FIX: Log the FULL error so you can see exactly what failed
-        console.error("Registration Error Code:", error.code);
-        console.error("Registration Error Message:", error.message);
-        console.error("Full error:", error);
-
         alert("Registration failed: " + error.message);
-
-        // Only delete the auth user if it was created in this attempt
         if (createdUser) {
-            try {
-                await deleteUser(createdUser);
-                console.log("Cleaned up incomplete auth user.");
-            } catch (deleteError) {
-                console.error("Could not delete incomplete auth user:", deleteError.message);
-            }
+            try { await deleteUser(createdUser); } catch (e) {}
         }
     }
 };
 
-// --- Process 1.3: Verify Confirmation & 3-Minute Purge ---
 function startVerificationTimer(user) {
     let timeLeft = 180;
     const timerDisplay = document.getElementById('timer-display');
 
     const countdown = setInterval(async () => {
         timeLeft--;
-        if (timerDisplay) {
-            timerDisplay.innerText = `Verify email within: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
-        }
+        if (timerDisplay) timerDisplay.innerText = `Verify email within: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
 
         if (timeLeft <= 0) {
             clearInterval(countdown);
-
             try {
                 await user.reload();
-
                 if (!user.emailVerified) {
-                    // ✅ FIX: Delete both the Auth user AND the Firestore document on expiry
                     await deleteUser(user);
                     alert("Verification time expired. Your unverified account has been removed.");
                 } else {
                     alert("Email verified! Please log in.");
                 }
-            } catch (e) {
-                console.error("Timer cleanup error:", e.message);
-            }
-
+            } catch (e) {}
             if (timerDisplay) timerDisplay.innerText = "";
         }
     }, 1000);
 }
 
-// --- Login & Role Routing ---
 window.loginUser = async () => {
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value;
@@ -228,6 +199,13 @@ window.loginUser = async () => {
                 return;
             }
 
+            // NEW FIX: Block rejected users from entering the system
+            if (userData.verificationStatus === "rejected") {
+                alert("Your account application was denied by the Barangay.");
+                await signOut(auth);
+                return;
+            }
+
             sessionStorage.setItem('userRole', userData.userType);
 
             if (userData.userType === "Barangay Official") {
@@ -235,32 +213,49 @@ window.loginUser = async () => {
             } else {
                 window.location.href = "dashboard.html";
             }
-
+dfefaef
         } else {
             alert("User data not found. Please contact support.");
             await signOut(auth);
         }
-
     } catch (error) {
-        console.error("Login error:", error.code, error.message);
         alert("Invalid credentials. Please check your email and password.");
     }
 };
 
-// --- Route Guard & Session Security ---
+window.sendPasswordReset = async () => {
+    const email = document.getElementById('reset-email').value.trim();
+    if (!email) return alert("Please enter your email address.");
+    try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Password reset email sent! Please check your inbox.");
+        showLoginForm(); 
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+};
+
 onAuthStateChanged(auth, (user) => {
     const currentPage = window.location.pathname.split('/').pop();
     const isAuthPage = currentPage === 'index.html' || currentPage === '';
+    const activeRole = sessionStorage.getItem('userRole');
 
-    if (user && user.emailVerified) {
-        if (isAuthPage) window.location.href = "dashboard.html";
-    } else {
+    if (user && user.emailVerified && activeRole) {
+        if (isAuthPage) {
+            if (activeRole === "Barangay Official") {
+                // Change this line from admin-verification.html to admin-dashboard.html
+                window.location.href = "admin-dashboard.html"; 
+            } else {
+                window.location.href = "dashboard.html";
+            }
+        }
+    } else if (!user) {
         if (!isAuthPage) window.location.href = "index.html";
     }
 });
 
-// --- Logout Function ---
-window.logoutUser = async () => {
+window.logoutUser = async (event) => {
+    if (event) event.preventDefault();
     try {
         await signOut(auth);
         sessionStorage.removeItem('userRole');
@@ -270,18 +265,23 @@ window.logoutUser = async () => {
     }
 };
 
-// --- Switch between Login and Sign Up UI ---
-function toggleAuth(event) {
+window.showLoginForm = (event) => {
     if (event) event.preventDefault();
-    const signupForm = document.getElementById('signup-form');
-    const loginForm = document.getElementById('login-form');
+    document.getElementById('signup-form').style.display = 'none';
+    document.getElementById('forgot-password-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
+};
 
-    if (signupForm.style.display === 'none') {
-        signupForm.style.display = 'block';
-        loginForm.style.display = 'none';
-    } else {
-        signupForm.style.display = 'none';
-        loginForm.style.display = 'block';
-    }
-}
-window.toggleAuth = toggleAuth;
+window.showSignupForm = (event) => {
+    if (event) event.preventDefault();
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('forgot-password-form').style.display = 'none';
+    document.getElementById('signup-form').style.display = 'block';
+};
+
+window.showForgotPassword = (event) => {
+    if (event) event.preventDefault();
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('signup-form').style.display = 'none';
+    document.getElementById('forgot-password-form').style.display = 'block';
+};

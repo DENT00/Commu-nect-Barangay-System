@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Commu-nect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/guard.js"></script>
+    <style>
+        /* ── Admin Dashboard Accordion ── */
+        .admin-dashboard-container {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 0 30px;
+            flex: 1;
+        }
+
+        .admin-dashboard-container h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #222;
+        }
+
+        /* Outer card that groups all accordion rows */
+        .accordion-wrapper {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        /* Each accordion row */
+        .accordion-item {
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Clickable header row */
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            padding: 22px 28px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s;
+        }
+        .accordion-header:hover {
+            background: #fafafa;
+        }
+
+        .accordion-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            margin-right: 18px;
+            color: #333;
+        }
+
+        .accordion-text {
+            flex: 1;
+        }
+        .accordion-text h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 3px;
+        }
+        .accordion-text p {
+            font-size: 12px;
+            color: #777;
+            margin: 0;
+        }
+
+        .accordion-chevron {
+            font-size: 16px;
+            color: #555;
+            transition: transform 0.25s ease;
+        }
+        .accordion-item.open .accordion-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Expandable body */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #fff;
+        }
+        .accordion-item.open .accordion-body {
+            max-height: 400px;
+        }
+
+        /* Sub-links inside the accordion body */
+        .accordion-sub-links {
+            list-style: none;
+            padding: 0 28px 18px 90px; /* indent to align with text */
+            margin: 0;
+        }
+        .accordion-sub-links li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .accordion-sub-links li:last-child {
+            border-bottom: none;
+        }
+        .accordion-sub-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: color 0.15s;
+        }
+        .accordion-sub-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Non-accordion rows (no chevron, no expand) */
+        .accordion-item.no-expand .accordion-header {
+            cursor: default;
+        }
+        .accordion-item.no-expand .accordion-header:hover {
+            background: transparent;
+        }
+
+        /* Banner */
+        .banner-wrapper {
+            background-image: linear-gradient(rgba(43, 97, 18, 0.65), rgba(0, 0, 0, 0.55)),
+                            url("media/images/banner.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 320px;
+            width: calc(100vw - 15.2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .banner-content {
+            text-align: center;
+            color: #ffffff;
+            padding: 0 20px;
+            max-width: 750px;
+        }
+        .banner-content h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
+        }
+        .banner-content p {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.8;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0.92;
+        }
+        
+        /* Footer */
+        footer a { color: var(--bg-white); text-decoration: none; font-size: 12px; font-weight: 400; }
+        footer a:hover {border-bottom: 2px solid var(--bg-white); padding-bottom: 2px;}
+
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <div class="logo-area">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <strong>Commu-nect</strong><br>
+                <span>Gen T. De Leon</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="admin-dashboard.html" class="active">Home</a>
+            <a href="admin-verification.html">Verification</a>
+            <a href="community-network.html">Community Network</a>
+            <a href="announcement.html">Announcements</a>
+            <a href="request-forms.html">Request Forms</a>
+            <a href="#" id="logout-btn" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">
+                <i class="fas fa-power-off"></i> Log out
+            </a>
+        </div>
+    </nav>
+
+    <div class="banner-wrapper">
+        <div class="banner-content">
+            <h1>Welcome, Barangay Official</h1>
+            <p>
+                Manage and monitor barangay operations from this dashboard. You can verify 
+                and approve pending resident accounts, review submitted request forms such 
+                as Clearance and Business Permits, post official announcements, and oversee 
+                community network reports — all in one place.
+            </p>
+        </div>
+    </div>
+
+    <main class="admin-dashboard-container">
+        <h1>Admin Dashboard</h1>
+
+        <div class="accordion-wrapper">
+
+            <!-- Request Forms (accordion) -->
+            <div class="accordion-item" id="acc-request-forms">
+                <div class="accordion-header" onclick="toggleAccordion('acc-request-forms')">
+                    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    <div class="accordion-text">
+                        <h3>Request Forms</h3>
+                        <p>Review the submitted request forms.</p>
+                    </div>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </div>
+                <div class="accordion-body">
+                    <ul class="accordion-sub-links">
+                        <li><a href="admin-clearance.html">Barangay ID</a></li>
+                        <li><a href="admin-clearance.html">Clearance</a></li>
+                        <li><a href="admin-clearance.html">Business Permit</a></li>
+                        <li><a href="admin-oath-undertaking.html">First Time Jobseeker/Oath of Undertaking</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Announcements (no sub-links) -->
+            <div class="accordion-item no-expand">
+                <div class="accordion-header" onclick="window.location.href='announcement.html'">
+                    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                    </svg>
+                    <div class="accordion-text">
+                        <h3>Announcements</h3>
+                        <p>Upload the barangay official announcements</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Network (no sub-links) -->
+            <div class="accordion-item no-expand">
+                <div class="accordion-header" onclick="window.location.href='community-network.html'">
+                    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <div class="accordion-text">
+                        <h3>Community Network</h3>
+                        <p>Review the public report regarding a problem that needs to be fixed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Document Report (accordion) -->
+            <div class="accordion-item" id="acc-doc-report">
+                <div class="accordion-header" onclick="toggleAccordion('acc-doc-report')">
+                    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
+                        <rect x="8" y="8" width="8" height="8"/>
+                        <line x1="4" y1="12" x2="20" y2="12"/>
+                        <line x1="12" y1="4" x2="12" y2="20"/>
+                    </svg>
+                    <div class="accordion-text">
+                        <h3>Document Report</h3>
+                        <p>You can now do your document report such as BCPC report, Lupong report, and Minero report.</p>
+                    </div>
+                    <i class="fas fa-chevron-down accordion-chevron"></i>
+                </div>
+                <div class="accordion-body">
+                    <ul class="accordion-sub-links">
+                        <li><a href="#">LUPON Report</a></li>
+                        <li><a href="#">BCPC Report</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand" style="flex-direction: column;">
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="logo-icon" style="background: var(--dark-green);">C</div>
+                    <div class="logo-text">
+                        <strong>Commu-nect</strong><br>
+                        <span>Gen T. De Leon's Barangay Web-System</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-mobile-alt" style="width:15px;text-align:center;"></i> +63 XXX-XXX-XXXX</p>
+                    <p><i class="fas fa-phone-alt" style="width:15px;text-align:center;"></i> 02-8XXX-XXXX</p>
+                    <p><i class="fas fa-envelope" style="width:15px;text-align:center;"></i> gentdeleon@gmail.com</p>
+                </div>
+                <p style="font-size: 9px; margin-top: 30px; opacity: 0.8;">©2026 Commu-nect. All Rights Reserved.</p>
+            </div>
+
+            <div class="footer-links-container">
+                <h4>Quick Link</h4>
+                <ul>
+                    <li><a href="admin-dashboard.html">Home</a></li>
+                    <li><a href="admin-verification.html">Verification</a></li>
+                    <li><a href="community-network.html">Community Network</a></li>
+                    <li><a href="announcement.html">Announcements</a></li>
+                    <li><a href="request-forms.html">Request Forms</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-container">
+                <h4>Barangay Kagawad</h4>
+                <ul>
+                    <li>Rica A. Matos</li>
+                    <li>Susana B. De Gula Rosca</li>
+                    <li>Rolando O. Dela Cruz</li>
+                    <li>Moises S. Beltran</li>
+                    <li>Renato V. Bernardino</li>
+                    <li>Ellaine B. Manalaysay</li>
+                    <li>Edgardo S. Dizon</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom" style="justify-content: center; text-align: center;">
+            <p>Designed and Developed by Group 10 of Mapua University</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleAccordion(id) {
+            const item = document.getElementById(id);
+            const isOpen = item.classList.contains('open');
+            // Close all first
+            document.querySelectorAll('.accordion-item.open').forEach(el => el.classList.remove('open'));
+            // Toggle clicked
+            if (!isOpen) item.classList.add('open');
+        }
+    </script>
+    <script type="module" src="js/authorization.js"></script>
+</body>
+</html>

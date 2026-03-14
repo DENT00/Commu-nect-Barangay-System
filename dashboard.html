@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Commu-nect</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/guard.js"></script>
+    <style>
+        /* Banner */
+        .banner {
+            background-image: linear-gradient(rgba(43, 97, 18, 0.65), rgba(0, 0, 0, 0.55)), 
+                            url("media/images/banner.jpg");
+            background-size: cover;
+            background-position: center;
+            height: calc(100vh - 88.4px);
+            width: calc(100vw - 15.2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .banner-content {
+            text-align: center;
+            color: #ffffff;
+            padding: 0 20px;
+            max-width: 750px;
+        }
+        .banner-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
+        }
+        .banner-content p {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.8;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0.92;
+        }
+        
+        /* Footer */
+        footer a { color: var(--bg-white); text-decoration: none; font-size: 12px; font-weight: 400; }
+        footer a:hover {border-bottom: 2px solid var(--bg-white); padding-bottom: 2px;}
+    </style>
 </head>
 <body>
 
@@ -16,19 +56,31 @@
                 <span>Gen T. De Leon</span>
             </div>
         </div>
-        <nav class="nav-links">
+        <div class="nav-links">
             <a href="dashboard.html" class="active">Home</a>
-            <a href="#">News Feed</a>
-            <a href="#">Announcement</a>
+            <a href="community-network.html">Community Network</a>
+            <a href="announcement.html">Announcements</a>
             <a href="request-forms.html">Request Forms</a>
-            <a href="#" onclick="logoutUser()" style="color: #FFCDD2; font-weight: 600;">Logout</a>
+            <a href="#" id="logout-btn" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">
+                <i class="fas fa-power-off"></i> Log out
+            </a>
         </nav>
     </header>
 
-    <div class="gray-banner"></div>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Welcome to Barangay Gen. T. De Leon</h1>
+            <p>
+                Barangay General Timoteo De Leon is a vibrant community located in the 
+                City of Valenzuela, Metro Manila. Home to thousands of hardworking residents, 
+                our barangay is committed to delivering efficient, transparent, and 
+                accessible public services for every member of our community.
+            </p>
+        </div>
+    </div>
 
     <main class="dashboard-container">
-        <h1>Dashboard</h1>
+        <h1>Barangay Dashboard</h1>
         
         <div class="cards-grid">
             <div class="feature-card">
@@ -70,28 +122,30 @@
 
     <footer class="site-footer">
         <div class="footer-top">
-            <div class="footer-brand">
-                <div class="logo-icon" style="background:var(--dark-green); padding:10px 15px; border-radius:8px; font-weight:700; font-size:24px;">C</div>
-                <div>
-                    <strong style="font-size: 16px;">Commu-nect</strong><br>
-                    <span style="font-size: 14px; font-weight: 600;">Gen T. De Leon's Barangay Web-System</span>
-                    
-                    <div class="contact-info">
-                        <p><span>📱</span> +63 XXX-XXX-XXXX</p>
-                        <p><span>📞</span> 02-8XXX-XXXX</p>
-                        <p><span>✉️</span> gentdeleon@gmail.com</p>
+            <div class="footer-brand" style="flex-direction: column;">
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="logo-icon" style="background: var(--dark-green);">C</div>
+                    <div class="logo-text">
+                        <strong>Commu-nect</strong><br>
+                        <span>Gen T. De Leon's Barangay Web-System</span>
                     </div>
                 </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-mobile-alt" style="width:15px;text-align:center;"></i> +63 XXX-XXX-XXXX</p>
+                    <p><i class="fas fa-phone-alt" style="width:15px;text-align:center;"></i> 02-8XXX-XXXX</p>
+                    <p><i class="fas fa-envelope" style="width:15px;text-align:center;"></i> gentdeleon@gmail.com</p>
+                </div>
+                <p style="font-size: 9px; margin-top: 30px; opacity: 0.8;">©2026 Commu-nect. All Rights Reserved.</p>
             </div>
 
             <div class="footer-links-container">
                 <h4>Quick Link</h4>
                 <ul>
-                    <li>Home</li>
-                    <li>News Feed</li>
-                    <li>Announcements</li>
-                    <li>Request Forms</li>
-                    <li>About Us</li>
+                    <li><a href="dashboard.html">Home</a></li>
+                    <li><a href="community-network.html">Community Network</a></li>
+                    <li><a href="announcement.html">Announcements</a></li>
+                    <li><a href="request-forms.html">Request Forms</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
                 </ul>
             </div>
 
@@ -108,10 +162,8 @@
                 </ul>
             </div>
         </div>
-
-        <div class="footer-bottom">
-            <p>©2026 Commu-nect. All Rights Reserved.</p>
-            <p>Designed and Developed by Group 6 of Mapua University</p>
+        <div class="footer-bottom" style="justify-content: center; text-align: center;">
+            <p>Designed and Developed by Group 10 of Mapua University</p>
         </div>
     </footer>
 
