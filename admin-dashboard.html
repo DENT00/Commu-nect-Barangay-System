@@ -132,7 +132,35 @@
 
         /* Banner */
         .banner-wrapper {
-            position: relative;
+            background-image: linear-gradient(rgba(43, 97, 18, 0.65), rgba(0, 0, 0, 0.55)),
+                            url("media/images/banner.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 320px;
+            width: calc(100vw - 15.2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .banner-content {
+            text-align: center;
+            color: #ffffff;
+            padding: 0 20px;
+            max-width: 750px;
+        }
+        .banner-content h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
+        }
+        .banner-content p {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.8;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0.92;
         }
         
         /* Footer */
@@ -164,7 +192,15 @@
     </nav>
 
     <div class="banner-wrapper">
-        <div class="gray-banner"></div>
+        <div class="banner-content">
+            <h1>Welcome, Barangay Official</h1>
+            <p>
+                Manage and monitor barangay operations from this dashboard. You can verify 
+                and approve pending resident accounts, review submitted request forms such 
+                as Clearance and Business Permits, post official announcements, and oversee 
+                community network reports — all in one place.
+            </p>
+        </div>
     </div>
 
     <main class="admin-dashboard-container">
