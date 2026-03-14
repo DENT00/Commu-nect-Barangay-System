@@ -1,4 +1,3 @@
-js/guard.js
 document.addEventListener("DOMContentLoaded", () => {
     const userRole = sessionStorage.getItem('userRole');
     const currentPage = window.location.pathname.split('/').pop();
@@ -34,6 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
             "community-network.html"      
         ]
     };
+
+    // --- FIX: Hide Restricted UI Elements for Non-Residents ---
+    if (userRole === "Non-Resident") {
+        // Hide all links pointing to request-forms.html (Nav and Footer)
+        document.querySelectorAll('a[href="request-forms.html"]').forEach(link => {
+            link.style.display = 'none';
+        });
+        
+        // Hide the Request Forms feature card on the dashboard
+        document.querySelectorAll('button[onclick*="request-forms.html"]').forEach(btn => {
+            const card = btn.closest('.feature-card');
+            if (card) card.style.display = 'none';
+        });
+    }
 
     if (userRole && currentPage !== 'index.html' && currentPage !== '') {
         const allowedPages = rolePermissions[userRole] || [];

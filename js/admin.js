@@ -3,15 +3,16 @@ import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/
 import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD30sheL6HR5q95MxMRvqVWT_9ON3ML6uk",
-    authDomain: "commu-nect.firebaseapp.com",
-    projectId: "commu-nect",
-    storageBucket: "commu-nect.firebasestorage.app",
-    messagingSenderId: "67056180570",
-    appId: "1:67056180570:web:af9fbad96687feecd82763"
+  apiKey: "AIzaSyDX7NmAsDkBik-mbmEWqwodLUv9nQjJ65g",
+  authDomain: "commu-nect-e6bb9.firebaseapp.com",
+  projectId: "commu-nect-e6bb9",
+  storageBucket: "commu-nect-e6bb9.firebasestorage.app",
+  messagingSenderId: "589689646614",
+  appId: "1:589689646614:web:ac474ff850d276a263cf37"
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); // Added Auth initialization
 const db = getFirestore(app);
 
 let currentUserIdToApprove = null;
@@ -57,7 +58,7 @@ async function loadPendingUsers() {
 
     } catch (error) {
         console.error("Error loading pending users:", error);
-        tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: red;">Error loading data.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: red;">Error loading data. Check console.</td></tr>';
     }
 }
 
@@ -110,7 +111,14 @@ window.closeModals = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadPendingUsers();
+    // FIX: Wait for Firebase to confirm the user is logged in before asking for data
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loadPendingUsers();
+        } else {
+            document.getElementById('verification-table-body').innerHTML = '<tr><td colspan="10" style="text-align: center; color: red;">Please log in first.</td></tr>';
+        }
+    });
     
     // Close modal when clicking outside the box
     document.querySelectorAll('.modal-overlay').forEach(overlay => {

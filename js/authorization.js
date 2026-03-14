@@ -4,12 +4,12 @@ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInW
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD30sheL6HR5q95MxMRvqVWT_9ON3ML6uk",
-    authDomain: "commu-nect.firebaseapp.com",
-    projectId: "commu-nect",
-    storageBucket: "commu-nect.firebasestorage.app",
-    messagingSenderId: "67056180570",
-    appId: "1:67056180570:web:af9fbad96687feecd82763"
+  apiKey: "AIzaSyDX7NmAsDkBik-mbmEWqwodLUv9nQjJ65g",
+  authDomain: "commu-nect-e6bb9.firebaseapp.com",
+  projectId: "commu-nect-e6bb9",
+  storageBucket: "commu-nect-e6bb9.firebasestorage.app",
+  messagingSenderId: "589689646614",
+  appId: "1:589689646614:web:ac474ff850d276a263cf37"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -122,11 +122,16 @@ window.registerUser = async () => {
             createdAt: new Date()
         });
 
-        await sendEmailVerification(createdUser);
+        const actionCodeSettings = {
+            url: window.location.origin + '/index.html', 
+            handleCodeInApp: false
+        };
+
+        await sendEmailVerification(createdUser, actionCodeSettings);
 
         alert("Account created! A verification email has been sent. You have 3 minutes to verify.");
         startVerificationTimer(createdUser);
-
+        
     } catch (error) {
         alert("Registration failed: " + error.message);
         if (createdUser) {
@@ -194,7 +199,13 @@ window.loginUser = async () => {
                 return;
             }
 
-            // Sets the active role token
+            // NEW FIX: Block rejected users from entering the system
+            if (userData.verificationStatus === "rejected") {
+                alert("Your account application was denied by the Barangay.");
+                await signOut(auth);
+                return;
+            }
+
             sessionStorage.setItem('userRole', userData.userType);
 
             if (userData.userType === "Barangay Official") {
@@ -224,13 +235,11 @@ window.sendPasswordReset = async () => {
     }
 };
 
-// --- FIX: Updated Route Guard to prevent early redirects ---
 onAuthStateChanged(auth, (user) => {
     const currentPage = window.location.pathname.split('/').pop();
     const isAuthPage = currentPage === 'index.html' || currentPage === '';
     const activeRole = sessionStorage.getItem('userRole');
 
-    // Only redirect if they are fully logged in AND have passed the database checks
     if (user && user.emailVerified && activeRole) {
         if (isAuthPage) {
             if (activeRole === "Barangay Official") {
