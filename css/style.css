@@ -161,3 +161,134 @@ body {
     outline: none;
 }
 .input-group input:focus { border-color: var(--primary-green); }
+
+/* Start of New CSS */
+.fixed {
+	position: fixed;
+	z-index: 1000;
+}
+
+.top-nav.fixed {
+	width: 100%;
+}
+
+.feed-bg.fixed {
+	z-index: 999;
+	margin-top: 80px;
+}
+
+.base-fixed {
+	margin-top: 180px;
+}
+
+.content-header {
+	width: 70%;
+	margin-top: 90px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 30px 0px;
+	font-size: 25px;
+}
+
+.content {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+    margin-bottom: 10px;
+    padding: 10px 10px 0px 10px;
+	border: 1px solid gray;
+	border-radius: 10px;
+}
+
+.title {
+	font-size: 25px;
+}
+
+.body {
+    font-size: 15px;
+}
+
+.img {
+    width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.icon {
+    height: 10px;
+    vertical-align: top;
+	margin-left: 2px;
+	margin-right: 2px;
+    margin-bottom: 10px;
+}
+
+.icon.red {
+    filter: invert(24%) sepia(89%) saturate(7475%) hue-rotate(349deg) brightness(95%) contrast(102%);
+}
+
+.icon.blue {
+    filter: invert(44%) sepia(87%) saturate(4448%) hue-rotate(196deg) brightness(96%) contrast(101%);
+}
+
+.feedback {
+    font-size: 10px;
+    vertical-align: baseline;
+}
+
+.endMessage {
+    font-size: 25px;
+	margin-left: auto;
+	margin-right: auto;
+    text-align: center;
+}
+
+/* New Feed */
+.feed-bg {
+    background: #fff;
+    width: 100%;
+}
+
+.feed-bar {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px; width: 580px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 14px 10px;
+}
+
+.feed-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+}
+
+.feed-tab-active {
+    color: #72C017;
+    font-weight: 600;
+}
+
+.dot-active {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e24b4a;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #888;
+}
+
+.sep {
+    color: #ccc;
+}
+
+/* End of new CSS */
