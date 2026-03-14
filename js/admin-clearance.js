@@ -18,30 +18,31 @@ emailjs.init("DPWCQhOxzXHuAxJlq");
 
 const tableBody = document.getElementById("tableBody");
 
-// Read data from Firestore in real-time
-onSnapshot(collection(db, "clearanceRequests"), (snapshot) => {
+// 1. CHANGED: collection name from "clearanceRequests" to "clearance"
+onSnapshot(collection(db, "clearance"), (snapshot) => {
     tableBody.innerHTML = "";
 
     snapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        const docId = docSnap.id; // This is the Firestore Document ID needed for updating/deleting
+        const docId = docSnap.id;
 
+        // 2. UPDATED: Using the new field names (fullName, emailAddress)
         let row = `
         <tr>
-            <td>${data.id || ""}</td>
-            <td>${data.name || ""}</td>
+            <td>${docId.substring(0, 8)}...</td> 
+            <td>${data.fullName || ""}</td>
             <td>${data.address || ""}</td>
             <td>${data.age || ""}</td>
             <td>${data.bday || ""}</td>
             <td>${data.yearsLiving || ""}</td>
-            <td>${data.email || ""}</td>
+            <td>${data.emailAddress || ""}</td>
             <td>${data.purpose || ""}</td>
             <td>${data.patient || ""}</td>
             <td>${data.deceased || ""}</td>
             <td>${data.student || ""}</td>
             <td>
-                <button class="approve" onclick="approveRequest('${docId}','${data.email}','${data.name}','${data.status}')">✔</button>
-                <button class="deny" onclick="denyRequest('${docId}','${data.email}','${data.name}','${data.status}')">✖</button>
+                <button class="approve" onclick="approveRequest('${docId}','${data.emailAddress}','${data.fullName}','${data.status}')">✔</button>
+                <button class="deny" onclick="denyRequest('${docId}','${data.emailAddress}','${data.fullName}','${data.status}')">✖</button>
                 <button class="delete" onclick="deleteRequest('${docId}')">🗑</button>
             </td>
             <td class="status ${data.status ? data.status.toLowerCase() : 'pending'}">${data.status || "Pending"}</td>
@@ -51,7 +52,7 @@ onSnapshot(collection(db, "clearanceRequests"), (snapshot) => {
     });
 });
 
-// APPROVE REQUEST
+// APPROVE REQUEST (Updated collection reference)
 window.approveRequest = async function(docId, email, name, status) {
     if (status === "Approved") {
         alert("This request is already approved.");
@@ -59,7 +60,7 @@ window.approveRequest = async function(docId, email, name, status) {
     }
 
     try {
-        const requestRef = doc(db, "clearanceRequests", docId);
+        const requestRef = doc(db, "clearance", docId); // Changed to "clearance"
         await updateDoc(requestRef, { status: "Approved" });
 
         emailjs.send("service_k0jg0op", "template_iqrjxi2", {
@@ -74,7 +75,7 @@ window.approveRequest = async function(docId, email, name, status) {
     }
 }
 
-// DENY REQUEST
+// DENY REQUEST (Updated collection reference)
 window.denyRequest = async function(docId, email, name, status) {
     if (status === "Denied") {
         alert("This request is already denied.");
@@ -82,7 +83,7 @@ window.denyRequest = async function(docId, email, name, status) {
     }
 
     try {
-        const requestRef = doc(db, "clearanceRequests", docId);
+        const requestRef = doc(db, "clearance", docId); // Changed to "clearance"
         await updateDoc(requestRef, { status: "Denied" });
 
         emailjs.send("service_k0jg0op", "template_iqrjxi2", {
@@ -97,11 +98,11 @@ window.denyRequest = async function(docId, email, name, status) {
     }
 }
 
-// DELETE REQUEST
+// DELETE REQUEST (Updated collection reference)
 window.deleteRequest = async function(docId) {
     if(confirm("Are you sure you want to delete this request permanently?")) {
         try {
-            await deleteDoc(doc(db, "clearanceRequests", docId));
+            await deleteDoc(doc(db, "clearance", docId)); // Changed to "clearance"
         } catch (error) {
             console.error("Error deleting document:", error);
         }

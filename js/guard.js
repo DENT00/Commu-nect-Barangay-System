@@ -1,4 +1,4 @@
-/*document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const userRole = sessionStorage.getItem('userRole');
     const currentPage = window.location.pathname.split('/').pop();
 
@@ -24,7 +24,7 @@
             "community-network.html",
             "news-feed.html",     
             "upload-announcement.html",   
-            "request-forms.html",         
+         
             "admin-clearance.html",       
             "admin-jobseeker.html" 
         ],
