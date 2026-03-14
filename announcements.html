@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Commu-nect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/guard.js"></script>
+</head>
+<body>
+	
+    <header class="top-nav fixed">
+        <div class="logo-area">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <strong>Commu-nect</strong><br>
+                <span>Gen T. De Leon</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="news-feed.html">News Feed</a>
+            <a href="announcements.html" class="active">Announcement</a>
+            <a href="request-forms.html">Request Forms</a>
+            <a href="#" onclick="logoutUser()" style="color: #FFCDD2; font-weight: 600;">Logout</a>
+        </nav>
+    </header>
+	
+	<div class="content-header">Announcement</div>
+
+    <div id="base"></div>
+
+    <script type="module">
+        import { collection, doc, addDoc, getDoc, getDocs, updateDoc, query, orderBy, Timestamp, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+        import { auth, db } from "/js/firebase.js";
+
+        async function readValue() {
+            const colRef = collection(db, "announcements");
+            const q = query(colRef, orderBy("createdAt", "desc"));
+            const colSnap = await getDocs(q);
+            
+            const col = [];
+            colSnap.forEach(doc => {
+                const data = doc.data();
+                col.push({
+                    id: doc.id,
+                    title: data.title,
+                    content: data.content,
+                    votes: data.votes
+                });
+            });
+
+            return col;
+        }
+
+        let msgDB = await readValue();
+
+        const base = document.getElementById('base');
+
+        async function vote (annID, voteValue) {
+            const user = auth.currentUser;
+
+            const docRef = doc(db, "announcements", annID);
+            const docSnap = await getDoc(docRef);
+
+            let data = docSnap.data();
+            let voters = data.voters || [];
+
+            const existingVoteIndex = voters.findIndex(v => v.uid === user.uid);
+
+            if (existingVoteIndex > -1) {
+                await updateDoc(docRef, { votes: increment(-voters[existingVoteIndex]['vote']) });
+                if (voters[existingVoteIndex]['vote'] == voteValue) {
+                    voters[existingVoteIndex]['vote'] = 0;
+                    voteValue = 0;
+                } else {
+                    voters[existingVoteIndex]['vote'] = voteValue;
+                }
+            } else {
+                voters.push({ uid: user.uid, vote: voteValue });
+            }
+
+            await updateDoc(docRef, { votes: increment(voteValue), voters: voters });
+            const retSnap = await getDoc(docRef);
+            data = docSnap.data();
+                
+            return user.uid;
+        }
+
+        async function updateVote (annID) {
+            const user = auth.currentUser;
+            const docRef = doc(db, "announcements", annID);
+            const docSnap = await getDoc(docRef);
+            let data = docSnap.data();
+            let voters = data.voters || [];
+
+            let newVote = data['votes'];
+            const voteSpan = document.getElementById(`vote-${annID}`);
+            voteSpan.innerText = newVote;
+            
+            const upVote = document.getElementById(`up-${annID}`);
+            const downVote = document.getElementById(`down-${annID}`);
+
+            const existingVoteIndex = voters.findIndex(v => v.uid === user.uid);
+            let voteValue = 0;
+            if (existingVoteIndex > -1) {
+                voteValue = voters[existingVoteIndex]['vote'];
+            }
+
+           
+
+            if (voteValue == 1) {
+                upVote.className = "icon red";
+                downVote.className = "icon";
+            } else if (voteValue == -1) {
+                upVote.className = "icon";
+                downVote.className = "icon blue";
+            } else {
+                upVote.className = "icon";
+                downVote.className = "icon";
+            }
+        }
+
+        function createDiv (msgData) {
+            let newDiv = document.createElement('div');
+            newDiv.className = "content";
+
+            let newText = document.createElement('p');
+            newText.className = "title";
+            newText.innerText = `${msgData['title']}`;
+            newDiv.appendChild(newText);
+
+            newText = document.createElement('p');
+            newText.className = "body";
+            newText.innerText = `${msgData['content']}`;
+            newDiv.appendChild(newText);
+
+            let newImg = document.createElement('img');
+            newImg.src = `images/announcement/random.jpg`; /* edit this */
+            newImg.className = "img";
+            newDiv.appendChild(newImg);
+
+            let lineBreak = document.createElement('br');
+            newDiv.appendChild(lineBreak);
+
+            newText = document.createElement('p');
+            newText.className = "feedback";
+
+            newImg = document.createElement('img');
+            newImg.src = "images/icons/up arrow.svg";
+            newImg.className = "icon";
+            newImg.id = `up-${msgData.id}`;
+            newImg.addEventListener('click', async () => {
+                await vote(msgData.id, 1);
+                updateVote(msgData.id);
+            });
+            newText.appendChild(newImg);
+
+            let newSpan = document.createElement('span');
+            newSpan.className = "vote-count";
+            newSpan.id = `vote-${msgData.id}`;
+            newSpan.innerText = `${msgData['votes']}`;
+            newText.appendChild(newSpan);
+
+            newImg = document.createElement('img');
+            newImg.src = "images/icons/down arrow.svg";
+            newImg.className = "icon";
+            newImg.id = `down-${msgData.id}`;
+            newImg.addEventListener('click', async () => {
+                await vote(msgData.id, -1);
+                updateVote(msgData.id);
+            });
+            newText.appendChild(newImg);
+
+            newImg = document.createElement('img');
+            newImg.src = "images/icons/message.svg";
+            newImg.className = "icon";
+            newText.appendChild(newImg);
+            
+            newDiv.appendChild(newText);
+
+			base.appendChild(newDiv);
+            updateVote(msgData.id);
+        }
+
+        msgDB.forEach(msgRow => {
+            createDiv(msgRow);
+        });
+
+        let newText = document.createElement('p');
+        newText.className = "endMessage";
+        newText.innerText = "Looks like you have reached the end";
+        base.appendChild(newText);
+		
+	</script>
+	
+    <script src="js/main.js"></script>
+    <script type="module" src="js/authorization.js"></script>
+</body>
+</html>
+
+<!--
+
+Dev Notes
+
+Save images as announcement ID
+
+Remember to edit the line in the createDiv function for images to use '${msgData.id}'
+
+-->
