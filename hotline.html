@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotlines | Commu-nect</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/guard.js"></script>
+    <style>
+        body { background-color: #F4F6F0; }
+
+        /* ── Hero ── */
+        .hotline-hero {
+            background: linear-gradient(135deg, #1a3d0a 0%, #2B6112 45%, #4a9c1f 100%);
+            padding: 72px 28px 90px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hotline-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; left: -80px;
+            width: 340px; height: 340px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+        .hotline-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px; right: -60px;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+        }
+
+        /* wavy bottom edge */
+        .hero-wave {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%; line-height: 0;
+        }
+        .hero-wave svg { display: block; }
+
+        .hotline-hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 660px;
+            margin: 0 auto;
+            color: #fff;
+        }
+
+        .hero-icon-ring {
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.14);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 30px;
+            animation: pulse-ring 2.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.25); }
+            50%       { box-shadow: 0 0 0 14px rgba(255,255,255,0); }
+        }
+
+        .hotline-hero-inner .eyebrow {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            margin-bottom: 16px;
+        }
+
+        .hotline-hero-inner h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.2;
+        }
+
+        .hotline-hero-inner p {
+            font-size: 14px;
+            line-height: 1.8;
+            opacity: 0.85;
+        }
+
+        /* ── Layout ── */
+        .page-wrap {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ── Emergency Banner ── */
+        .emergency-banner {
+            background: #fff;
+            border-radius: 20px;
+            border-left: 6px solid #e53935;
+            box-shadow: 0 6px 32px rgba(229,57,53,0.13);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 28px 32px;
+            margin: -36px auto 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .emergency-icon {
+            width: 60px; height: 60px;
+            background: #FFEBEE;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            color: #e53935;
+            flex-shrink: 0;
+        }
+
+        .emergency-text strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #c62828;
+            margin-bottom: 3px;
+        }
+
+        .emergency-text p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .emergency-number {
+            margin-left: auto;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .emergency-number a {
+            display: block;
+            font-size: 34px;
+            font-weight: 700;
+            color: #e53935;
+            text-decoration: none;
+            letter-spacing: 1px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .emergency-number a:hover { color: #b71c1c; }
+
+        .emergency-number span {
+            font-size: 11px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* ── Section label ── */
+        .section-label {
+            margin-bottom: 28px;
+        }
+
+        .section-label .eyebrow {
+            display: inline-block;
+            background: #EAF3DE;
+            color: var(--dark-green);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+
+        .section-label h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        /* ── Hotline Grid ── */
+        .hotline-block { margin-bottom: 54px; }
+
+        .hotline-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .hotline-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px 24px;
+            box-shadow: 0 3px 18px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--primary-green);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .hotline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 32px rgba(43,97,18,0.12);
+        }
+
+        /* Color variants */
+        .hotline-card.red    { border-top-color: #e53935; }
+        .hotline-card.blue   { border-top-color: #1565C0; }
+        .hotline-card.orange { border-top-color: #e65100; }
+        .hotline-card.teal   { border-top-color: #00695C; }
+        .hotline-card.purple { border-top-color: #6A1B9A; }
+        .hotline-card.amber  { border-top-color: #F57F17; }
+        .hotline-card.green  { border-top-color: var(--dark-green); }
+        .hotline-card.pink   { border-top-color: #AD1457; }
+        .hotline-card.indigo { border-top-color: #283593; }
+
+        .hcard-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hcard-icon {
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Icon bg tints to match border */
+        .hotline-card.green  .hcard-icon { background: #EAF3DE; color: var(--dark-green); }
+        .hotline-card.red    .hcard-icon { background: #FFEBEE; color: #e53935; }
+        .hotline-card.blue   .hcard-icon { background: #E3F2FD; color: #1565C0; }
+        .hotline-card.orange .hcard-icon { background: #FFF3E0; color: #e65100; }
+        .hotline-card.teal   .hcard-icon { background: #E0F2F1; color: #00695C; }
+        .hotline-card.purple .hcard-icon { background: #F3E5F5; color: #6A1B9A; }
+        .hotline-card.amber  .hcard-icon { background: #FFFDE7; color: #F57F17; }
+        .hotline-card.pink   .hcard-icon { background: #FCE4EC; color: #AD1457; }
+        .hotline-card.indigo .hcard-icon { background: #E8EAF6; color: #283593; }
+
+        .hcard-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+
+        .hcard-desc {
+            font-size: 11.5px;
+            color: #999;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .hcard-divider {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+            margin: 0;
+        }
+
+        .hcard-numbers {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .hcard-number-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hcard-number-row .num-type {
+            font-size: 10px;
+            font-weight: 600;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 38px;
+            flex-shrink: 0;
+        }
+
+        .hcard-number-row a {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .hotline-card.red    .hcard-number-row a:hover { color: #e53935; }
+        .hotline-card.blue   .hcard-number-row a:hover { color: #1565C0; }
+        .hotline-card.green  .hcard-number-row a:hover { color: var(--dark-green); }
+        .hotline-card.orange .hcard-number-row a:hover { color: #e65100; }
+        .hotline-card.teal   .hcard-number-row a:hover { color: #00695C; }
+        .hotline-card.purple .hcard-number-row a:hover { color: #6A1B9A; }
+        .hotline-card.amber  .hcard-number-row a:hover { color: #F57F17; }
+        .hotline-card.pink   .hcard-number-row a:hover { color: #AD1457; }
+        .hotline-card.indigo .hcard-number-row a:hover { color: #283593; }
+
+        .copy-btn {
+            margin-left: auto;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .copy-btn:hover { background: #e8e8e8; color: #333; }
+        .copy-btn.copied { background: #EAF3DE; color: var(--dark-green); }
+
+        /* ── Hours Table ── */
+        .hours-block {
+            margin-bottom: 54px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .hours-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 32px 28px;
+            box-shadow: 0 3px 18px rgba(0,0,0,0.06);
+        }
+
+        .hours-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hours-card h3 i {
+            color: var(--primary-green);
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #f3f3f3;
+            font-size: 13px;
+        }
+
+        .hours-row:last-child { border-bottom: none; }
+
+        .hours-row .day { color: #444; font-weight: 500; }
+        .hours-row .time { color: var(--dark-green); font-weight: 600; }
+        .hours-row .closed { color: #ccc; font-weight: 500; }
+
+        .today-badge {
+            background: #EAF3DE;
+            color: var(--dark-green);
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, var(--dark-green), #4a9c1f);
+            border-radius: 18px;
+            padding: 32px 28px;
+            color: #fff;
+        }
+
+        .tip-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tip-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .tip-list li {
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.92;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tip-list li::before {
+            content: '→';
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        /* ── Map placeholder ── */
+        .location-block { margin-bottom: 60px; }
+
+        .map-card {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 3px 18px rgba(0,0,0,0.06);
+        }
+
+        .map-placeholder {
+            height: 280px;
+            background: linear-gradient(135deg, #d4e6c3 0%, #c0d9a8 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--dark-green);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .map-placeholder i { font-size: 40px; opacity: 0.6; }
+
+        .map-info-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+
+        .map-info-item {
+            padding: 22px 24px;
+            border-right: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .map-info-item:last-child { border-right: none; }
+
+        .map-info-item i {
+            color: var(--primary-green);
+            font-size: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .map-info-item .mi-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .map-info-item .mi-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .hotline-grid { grid-template-columns: repeat(2, 1fr); }
+            .hours-block { grid-template-columns: 1fr; }
+            .map-info-row { grid-template-columns: 1fr; }
+            .map-info-item { border-right: none; border-bottom: 1px solid #f0f0f0; }
+            .map-info-item:last-child { border-bottom: none; }
+            .emergency-number { display: none; }
+        }
+        @media (max-width: 560px) {
+            .hotline-grid { grid-template-columns: 1fr; }
+            .hotline-hero-inner h1 { font-size: 28px; }
+            .emergency-banner { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-nav">
+        <div class="logo-area">
+            <div class="logo-icon">C</div>
+            <div class="logo-text">
+                <strong>Commu-nect</strong><br>
+                <span>Gen T. De Leon</span>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="dashboard.html">Home</a>
+            <a href="community-network.html">Community Network</a>
+            <a href="announcement.html">Announcements</a>
+            <a href="request-forms.html">Request Forms</a>
+            <a href="#" onclick="logoutUser(event)" style="color:#FFCDD2;font-weight:600;">
+                <i class="fas fa-power-off"></i> Log out
+            </a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hotline-hero">
+        <div class="hotline-hero-inner">
+            <div class="hero-icon-ring"><i class="fas fa-phone-alt"></i></div>
+            <span class="eyebrow">Emergency &amp; Contact Directory</span>
+            <h1>Barangay Hotlines</h1>
+            <p>Find the right number fast. All official barangay, city, and national emergency contacts in one place — available 24/7 when you need them most.</p>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="60">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" fill="#F4F6F0"/>
+            </svg>
+        </div>
+    </section>
+
+    <div class="page-wrap">
+
+        <!-- Emergency Banner -->
+        <div class="emergency-banner">
+            <div class="emergency-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="emergency-text">
+                <strong>Life-Threatening Emergency?</strong>
+                <p>Call the national emergency hotline immediately. Do not wait — every second counts.</p>
+            </div>
+            <div class="emergency-number">
+                <a href="tel:911">911</a>
+                <span>National Emergency</span>
+            </div>
+        </div>
+
+        <!-- Barangay Contacts -->
+        <div class="hotline-block">
+            <div class="section-label">
+                <span class="eyebrow">Local Office</span>
+                <h2>Barangay Gen. T. De Leon Contacts</h2>
+            </div>
+            <div class="hotline-grid">
+
+                <div class="hotline-card green">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-landmark"></i></div>
+                        <div>
+                            <div class="hcard-name">Barangay Hall</div>
+                            <div class="hcard-desc">General inquiries &amp; services</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Mobile</span>
+                            <a href="tel:+63XXXXXXXXXX">+63 XXX-XXX-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '+63XXXXXXXXXX')">Copy</button>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">Landline</span>
+                            <a href="tel:028XXXXXXXX">02-8XXX-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '028XXXXXXXX')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card green">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <div class="hcard-name">Barangay Tanod</div>
+                            <div class="hcard-desc">Local security &amp; patrol</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Mobile</span>
+                            <a href="tel:+63XXXXXXXXXX">+63 XXX-XXX-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '+63XXXXXXXXXX')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card green">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-envelope-open-text"></i></div>
+                        <div>
+                            <div class="hcard-name">Barangay Secretary</div>
+                            <div class="hcard-desc">Documents &amp; official records</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Email</span>
+                            <a href="mailto:gentdeleon@gmail.com" style="font-size:12px;">gentdeleon@gmail.com</a>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">Mobile</span>
+                            <a href="tel:+63XXXXXXXXXX">+63 XXX-XXX-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '+63XXXXXXXXXX')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Emergency Services -->
+        <div class="hotline-block">
+            <div class="section-label">
+                <span class="eyebrow">Emergency Services</span>
+                <h2>City &amp; National Emergency Numbers</h2>
+            </div>
+            <div class="hotline-grid">
+
+                <div class="hotline-card red">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-ambulance"></i></div>
+                        <div>
+                            <div class="hcard-name">Valenzuela Medical Center</div>
+                            <div class="hcard-desc">Public hospital &amp; emergency room</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">ER</span>
+                            <a href="tel:028292XXXX">02-8292-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '028292XXXX')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card blue">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-user-shield"></i></div>
+                        <div>
+                            <div class="hcard-name">Valenzuela City PNP</div>
+                            <div class="hcard-desc">Philippine National Police</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Main</span>
+                            <a href="tel:028293XXXX">02-8293-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '028293XXXX')">Copy</button>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">Emergency</span>
+                            <a href="tel:117">117</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '117')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card orange">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-fire-extinguisher"></i></div>
+                        <div>
+                            <div class="hcard-name">Bureau of Fire Protection</div>
+                            <div class="hcard-desc">Valenzuela City fire station</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Main</span>
+                            <a href="tel:028292XXXX">02-8292-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '028292XXXX')">Copy</button>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:160">160</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '160')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card teal">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-heartbeat"></i></div>
+                        <div>
+                            <div class="hcard-name">NDRRMC</div>
+                            <div class="hcard-desc">National Disaster Risk Reduction</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:911">911</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '911')">Copy</button>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">Operations</span>
+                            <a href="tel:028911XXXX">02-8911-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '028911XXXX')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card purple">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-female"></i></div>
+                        <div>
+                            <div class="hcard-name">VAWC Desk</div>
+                            <div class="hcard-desc">Violence Against Women &amp; Children</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:1343">1343</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '1343')">Copy</button>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">DSWD</span>
+                            <a href="tel:028931XXXX">02-8931-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '028931XXXX')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card amber">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-child"></i></div>
+                        <div>
+                            <div class="hcard-name">BCPC / Child Protection</div>
+                            <div class="hcard-desc">Barangay Council for Protection of Children</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Mobile</span>
+                            <a href="tel:+63XXXXXXXXXX">+63 XXX-XXX-XXXX</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '+63XXXXXXXXXX')">Copy</button>
+                        </div>
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:163">163</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '163')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Other Useful Lines -->
+        <div class="hotline-block">
+            <div class="section-label">
+                <span class="eyebrow">Other Contacts</span>
+                <h2>Utility &amp; Government Hotlines</h2>
+            </div>
+            <div class="hotline-grid">
+
+                <div class="hotline-card indigo">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <div class="hcard-name">Meralco</div>
+                            <div class="hcard-desc">Power outage &amp; electrical concerns</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:16211">16211</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '16211')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card blue">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-tint"></i></div>
+                        <div>
+                            <div class="hcard-name">MWSS / Maynilad</div>
+                            <div class="hcard-desc">Water supply &amp; leakage reports</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:15626">1626</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '1626')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotline-card pink">
+                    <div class="hcard-top">
+                        <div class="hcard-icon"><i class="fas fa-phone-volume"></i></div>
+                        <div>
+                            <div class="hcard-name">DOH Health Hotline</div>
+                            <div class="hcard-desc">Health questions &amp; COVID concerns</div>
+                        </div>
+                    </div>
+                    <hr class="hcard-divider">
+                    <div class="hcard-numbers">
+                        <div class="hcard-number-row">
+                            <span class="num-type">Hotline</span>
+                            <a href="tel:1555">1555</a>
+                            <button class="copy-btn" onclick="copyNumber(this, '1555')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Office Hours + Tips -->
+        <div class="hours-block">
+            <div class="hours-card">
+                <h3><i class="fas fa-clock"></i> Barangay Office Hours</h3>
+                <div class="hours-row">
+                    <span class="day">Monday <span class="today-badge" id="badge-mon" style="display:none">Today</span></span>
+                    <span class="time">8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Tuesday <span class="today-badge" id="badge-tue" style="display:none">Today</span></span>
+                    <span class="time">8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Wednesday <span class="today-badge" id="badge-wed" style="display:none">Today</span></span>
+                    <span class="time">8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Thursday <span class="today-badge" id="badge-thu" style="display:none">Today</span></span>
+                    <span class="time">8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Friday <span class="today-badge" id="badge-fri" style="display:none">Today</span></span>
+                    <span class="time">8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Saturday <span class="today-badge" id="badge-sat" style="display:none">Today</span></span>
+                    <span class="time">8:00 AM – 12:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Sunday <span class="today-badge" id="badge-sun" style="display:none">Today</span></span>
+                    <span class="closed">Closed</span>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-lightbulb"></i> Helpful Tips</h3>
+                <ul class="tip-list">
+                    <li>For life-threatening emergencies, always call <strong>911</strong> first — don't wait.</li>
+                    <li>Have your barangay ID or any valid ID ready when calling for document-related concerns.</li>
+                    <li>Use Commu-nect's Request Forms for non-urgent clearance and jobseeker requests.</li>
+                    <li>For VAWC cases, you may report confidentially — your safety is the priority.</li>
+                    <li>Tanod patrols operate 24 hours — don't hesitate to flag them down for safety concerns.</li>
+                    <li>Save this page or take a screenshot of critical numbers before you need them.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Location -->
+        <div class="location-block">
+            <div class="section-label">
+                <span class="eyebrow">Find Us</span>
+                <h2>Barangay Hall Location</h2>
+            </div>
+            <div class="map-card">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Barangay Gen. T. De Leon, Valenzuela City, Metro Manila</span>
+                    <a href="https://maps.google.com" target="_blank" rel="noopener"
+                       style="font-size:12px;color:var(--dark-green);font-weight:700;text-decoration:none;margin-top:4px;">
+                        <i class="fas fa-external-link-alt" style="margin-right:5px;"></i>Open in Google Maps
+                    </a>
+                </div>
+                <div class="map-info-row">
+                    <div class="map-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <div class="mi-label">Address</div>
+                            <div class="mi-value">Gen. T. De Leon, Valenzuela City, Metro Manila</div>
+                        </div>
+                    </div>
+                    <div class="map-info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <div class="mi-label">Phone</div>
+                            <div class="mi-value">02-8XXX-XXXX<br>+63 XXX-XXX-XXXX</div>
+                        </div>
+                    </div>
+                    <div class="map-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <div class="mi-label">Email</div>
+                            <div class="mi-value">gentdeleon@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand" style="flex-direction: column;">
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="logo-icon" style="background: var(--dark-green);">C</div>
+                    <div class="logo-text">
+                        <strong>Commu-nect</strong><br>
+                        <span>Gen T. De Leon's Barangay Web-System</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <p><i class="fas fa-mobile-alt" style="width:15px;text-align:center;"></i> +63 XXX-XXX-XXXX</p>
+                    <p><i class="fas fa-phone-alt" style="width:15px;text-align:center;"></i> 02-8XXX-XXXX</p>
+                    <p><i class="fas fa-envelope" style="width:15px;text-align:center;"></i> gentdeleon@gmail.com</p>
+                </div>
+                <p style="font-size: 9px; margin-top: 30px; opacity: 0.8;">©2026 Commu-nect. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links-container">
+                <h4>Quick Link</h4>
+                <ul>
+                    <li><a href="dashboard.html">Home</a></li>
+                    <li><a href="community-network.html">Community Network</a></li>
+                    <li><a href="announcement.html">Announcements</a></li>
+                    <li><a href="request-forms.html">Request Forms</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-links-container">
+                <h4>Barangay Kagawad</h4>
+                <ul>
+                    <li>Rica A. Matos</li>
+                    <li>Susana B. De Gula Rosca</li>
+                    <li>Rolando O. Dela Cruz</li>
+                    <li>Moises S. Beltran</li>
+                    <li>Renato V. Bernardino</li>
+                    <li>Ellaine B. Manalaysay</li>
+                    <li>Edgardo S. Dizon</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom" style="justify-content: center; text-align: center;">
+            <p>Designed and Developed by Group 10 of Mapua University</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script type="module" src="js/authorization.js"></script>
+    <script>
+        function copyNumber(btn, number) {
+            navigator.clipboard.writeText(number).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Highlight today's office hours
+        const days = ['sun','mon','tue','wed','thu','fri','sat'];
+        const today = days[new Date().getDay()];
+        const badge = document.getElementById('badge-' + today);
+        if (badge) badge.style.display = 'inline-block';
+    </script>
+</body>
+</html>
