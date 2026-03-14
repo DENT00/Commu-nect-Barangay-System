@@ -1,15 +1,23 @@
 // Import Firebase functions via CDN (Version 12.9.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  sendEmailVerification, 
+  signInWithEmailAndPassword, 
+  deleteUser, 
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD30sheL6HR5q95MxMRvqVWT_9ON3ML6uk",
-    authDomain: "commu-nect.firebaseapp.com",
-    projectId: "commu-nect",
-    storageBucket: "commu-nect.firebasestorage.app",
-    messagingSenderId: "67056180570",
-    appId: "1:67056180570:web:af9fbad96687feecd82763"
+  apiKey: "AIzaSyDX7NmAsDkBik-mbmEWqwodLUv9nQjJ65g",
+  authDomain: "commu-nect-e6bb9.firebaseapp.com",
+  projectId: "commu-nect-e6bb9",
+  storageBucket: "commu-nect-e6bb9.firebasestorage.app",
+  messagingSenderId: "589689646614",
+  appId: "1:589689646614:web:ac474ff850d276a263cf37"
 };
 
 const app = initializeApp(firebaseConfig);
