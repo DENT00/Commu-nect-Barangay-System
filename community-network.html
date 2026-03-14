@@ -38,6 +38,8 @@
         </div>
     </div>
 
+    <div id="base" class="base-fixed"></div>
+
     <script type="module">
         import { collection, doc, addDoc, getDoc, getDocs, updateDoc, query, orderBy, Timestamp, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
         
@@ -56,7 +58,9 @@
                     id: doc.id,
                     title: data.title,
                     content: data.content,
-                    votes: data.votes
+                    votes: data.votes,
+                    tag: data.tag,
+                    comments: data.comments
                 });
             });
 
@@ -132,7 +136,7 @@
 
         function createDiv (msgData) {
             let newDiv = document.createElement('div');
-            newDiv.className = "content base-fixed"; 
+            newDiv.className = "content"; 
             try {
                 newDiv.setAttribute("tag", msgData['tag']);
             } catch(any) {
@@ -189,7 +193,113 @@
 
             newImg = document.createElement('img');
             newImg.src = "media/images/icons/message.svg";
-            newImg.className = "icon";
+            newImg.className = "icon"
+            newImg.addEventListener('click', async () => {
+                let docBody = document.body;
+                let overlay = document.createElement('div');
+
+                let darkBG = document.createElement('div');
+                darkBG.className = "dark-overlay";
+                darkBG.addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                });
+                overlay.appendChild(darkBG);
+
+                let commentBox = document.createElement('div');
+                commentBox.className = "comment-box";
+                overlay.appendChild(commentBox);
+
+                let iconSection = document.createElement('div');
+                iconSection.className = "icon-section";
+
+                let closeIcon = document.createElement('img');
+                closeIcon.src = "media/images/icons/close.svg";
+                closeIcon.className = "icon";
+                closeIcon.addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                });
+                iconSection.appendChild(closeIcon);
+
+                commentBox.appendChild(iconSection);
+
+                let commentSection = document.createElement('div');
+                commentSection.className = "comment-section";
+
+                let commentPost = document.createElement('div');
+                commentPost.className = "comment-post";
+                commentSection.appendChild(commentPost);
+
+                
+                async function loadComments() {
+                    const msgRef = doc(db, "feed", msgData.id);
+                    const msgSnap = await getDoc(msgRef);
+                    const msgDataFull = msgSnap.data();
+
+                    let comments = msgDataFull.comments || [];
+                    comments.sort((a, b) => a.createdAt.toMillis() - b.createdAt.toMillis());
+
+                    comments.forEach(comment => {
+                        let commentDiv = document.createElement('div');
+                        commentDiv.className = "comment";
+
+                        let commentName = document.createElement('span');
+                        commentName.className = "comment-name";
+                        commentName.innerText = comment.name;
+                        commentDiv.appendChild(commentName);
+
+                        let commentText = document.createElement('p');
+                        commentText.className = "comment-text";
+                        commentText.innerText = comment.text;
+                        commentDiv.appendChild(commentText);
+
+                        commentPost.appendChild(commentDiv);
+                    });
+                }
+                loadComments();
+                
+                commentBox.appendChild(commentSection);
+
+                let commentInput = document.createElement('input');
+                commentInput.type = "text";
+                commentInput.placeholder = "Write a comment...";
+                commentInput.className = "comment-input";
+                commentBox.appendChild(commentInput);
+
+                let commentSubmit = document.createElement('button');
+                commentSubmit.innerText = "Submit";
+                commentSubmit.className = "comment-submit";
+                commentSubmit.addEventListener('click', async () => {
+                    const commentText = commentInput.value.trim();
+                    if (commentText === "") {
+                        alert("Comment cannot be empty.");
+                        return;
+                    }
+
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    const snapshot = await getDoc(userRef);
+                    const userData = snapshot.data();
+
+                    const firstName = userData.firstName || "Unknown";
+                    const middleInit = userData.middleInitial ? `${userData.middleInitial}.` : "";
+                    const lastName = userData.lastName || "User";
+                    const fullName = `${firstName} ${middleInit} ${lastName}`;
+
+                    const commentData = {
+                        name: fullName,
+                        text: commentText,
+                        createdAt: Timestamp.now()
+                    };
+                    const docRef = doc(db, "feed", msgData.id);
+                    await updateDoc(docRef, { comments: arrayUnion(commentData) });
+                    commentInput.value = "";
+                    commentPost.innerHTML = "";
+                    loadComments();
+                });
+                commentBox.appendChild(commentSubmit);
+
+                document.body.appendChild(overlay);
+                
+            });
             newText.appendChild(newImg);
             
             newDiv.appendChild(newText);
@@ -199,6 +309,29 @@
             }
             
             updateVote(msgData.id);
+        }
+
+        function endContent () {
+            let newText = document.createElement('p');
+            newText.className = "endMessage";
+            newText.innerText = "Looks like you have reached the end";
+        }
+
+        function loadContent () {
+            if (!msgDB) { endContent(); return null; }
+
+            if (tag == "") {
+                msgDB.forEach(msgRow => {
+                    createDiv(msgRow);
+                }); 
+            } else {
+                const filteredMessages = msgDB.filter(msgRow => msgRow['tag'] == tag);
+                filteredMessages.forEach(msgRow => {
+                    createDiv(msgRow);
+                });
+            }
+
+            endContent();
         }
 
         let tag = "";
@@ -228,33 +361,6 @@
                 base.innerHTML = "";
             }
             loadContent();
-        }
-
-        function loadContent () {
-            if (!msgDB) return null;
-
-            if (tag == "") {
-                msgDB.forEach(msgRow => {
-                    createDiv(msgRow);
-                }); 
-            } else {
-                const filteredMessages = msgDB.filter(msgRow => msgRow.tag === tag);
-                filteredMessages.forEach(msgRow => {
-                    createDiv(msgRow);
-                });
-            }
-
-            let newText = document.createElement('p');
-            newText.className = "endMessage";
-            newText.innerText = "Looks like you have reached the end";
-            if (base) base.appendChild(newText);
-        }
-
-        // Initialize empty base container since it was missing in the HTML skeleton
-        if (!document.getElementById('base')) {
-            const baseDiv = document.createElement('div');
-            baseDiv.id = 'base';
-            document.body.appendChild(baseDiv);
         }
 
         loadContent();
