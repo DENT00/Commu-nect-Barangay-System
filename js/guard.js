@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
     const userRole = sessionStorage.getItem('userRole');
     const currentPage = window.location.pathname.split('/').pop();
 
