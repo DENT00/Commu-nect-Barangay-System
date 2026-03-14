@@ -11,17 +11,21 @@ document.addEventListener("DOMContentLoaded", () => {
         "Barangay Official": [
             "admin-dashboard.html", 
             "admin-verification.html", 
-            "announcement.html",          
+            "announcement.html",
+            "announcements.html", // Added support for plural name
+            "community-network.html",
+            "news-feed.html",     // Added support for alternate name
             "upload-announcement.html",   
-            "community-network.html",     
             "request-forms.html",         
             "admin-clearance.html",       
             "admin-oath-undertaking.html" 
         ],
         "Resident": [
             "dashboard.html", 
-            "announcement.html",          
-            "community-network.html",     
+            "announcement.html",
+            "announcements.html", // Added support for plural name
+            "community-network.html",
+            "news-feed.html",     // Added support for alternate name
             "community-upload.html",      
             "request-forms.html",         
             "clearance-form.html",        
@@ -29,48 +33,41 @@ document.addEventListener("DOMContentLoaded", () => {
         ],
         "Non-Resident": [
             "dashboard.html", 
-            "announcement.html",          
-            "community-network.html"      
+            "announcement.html",
+            "announcements.html", // Added support for plural name
+            "community-network.html",
+            "news-feed.html",     // Added support for alternate name
+            "request-forms.html"  // Allowed per TODO Phase 3 (Clearance/Business)
         ]
     };
 
-    // --- FIX: Hide Restricted UI Elements for Non-Residents ---
+    // --- Hide Restricted UI Elements for Non-Residents ---
     if (userRole === "Non-Resident") {
-        // Hide all links pointing to request-forms.html (Nav and Footer)
-        document.querySelectorAll('a[href="request-forms.html"]').forEach(link => {
-            link.style.display = 'none';
-        });
-        
-        // Hide the Request Forms feature card on the dashboard
-        document.querySelectorAll('button[onclick*="request-forms.html"]').forEach(btn => {
-            const card = btn.closest('.feature-card');
-            if (card) card.style.display = 'none';
-        });
+        // We hide specific restricted elements instead of the whole page link
+        // You can hide the "Barangay ID" tab inside request-forms.html specifically
     }
 
     if (userRole && currentPage !== 'index.html' && currentPage !== '') {
         const allowedPages = rolePermissions[userRole] || [];
         
+        // If the current file isn't in the role's list, block access
         if (!allowedPages.includes(currentPage)) {
-            // STOP the user from scrolling while the popup is active
             document.body.style.overflow = 'hidden';
 
-            // Create a full-screen blurred overlay
             const overlay = document.createElement('div');
             overlay.style.position = 'fixed';
             overlay.style.top = '0';
             overlay.style.left = '0';
             overlay.style.width = '100vw';
             overlay.style.height = '100vh';
-            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)'; // Darken background slightly
-            overlay.style.backdropFilter = 'blur(8px)'; // THIS CREATES THE BLUR EFFECT
-            overlay.style.WebkitBackdropFilter = 'blur(8px)'; // Safari support
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+            overlay.style.backdropFilter = 'blur(8px)';
+            overlay.style.WebkitBackdropFilter = 'blur(8px)';
             overlay.style.zIndex = '9999';
             overlay.style.display = 'flex';
             overlay.style.justifyContent = 'center';
             overlay.style.alignItems = 'center';
 
-            // Create the custom styled popup box
             const modal = document.createElement('div');
             modal.style.backgroundColor = '#ffffff';
             modal.style.padding = '30px 40px';
@@ -80,22 +77,22 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.style.fontFamily = 'Arial, sans-serif';
             modal.style.maxWidth = '400px';
 
+            // Fixed: Modal message now describes the actual page being blocked
+            const friendlyPageName = currentPage.replace('.html', '').replace('-', ' ');
             modal.innerHTML = `
                 <i class="fas fa-lock" style="font-size: 40px; color: #d9534f; margin-bottom: 15px;"></i>
                 <h2 style="color: #333; margin: 0 0 10px 0;">Access Denied</h2>
                 <p style="color: #666; margin-bottom: 25px; line-height: 1.5;">
-                    As a <strong>${userRole}</strong>, you do not have permission to view or submit request forms.
+                    As a <strong>${userRole}</strong>, you do not have permission to view the <strong>${friendlyPageName}</strong> page.
                 </p>
                 <button id="kickout-btn" style="background-color: #61b136; color: white; border: none; padding: 12px 25px; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; width: 100%;">
                     Return to Dashboard
                 </button>
             `;
 
-            // Inject the popup into the page
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
 
-            // Handle what happens when they click the return button
             document.getElementById('kickout-btn').addEventListener('click', () => {
                 if (userRole === "Barangay Official") {
                     window.location.href = "admin-dashboard.html"; 

@@ -8,7 +8,7 @@
     <script src="js/guard.js"></script>
 </head>
 <body>
-	
+    
     <header class="top-nav fixed">
         <div class="logo-area">
             <div class="logo-icon">C</div>
@@ -19,20 +19,22 @@
         </div>
         <nav class="nav-links">
             <a href="dashboard.html">Home</a>
-            <a href="news-feed.html">News Feed</a>
-            <a href="announcements.html" class="active">Announcement</a>
+            <a href="community-network.html">Community Network</a>
+            <a href="announcement.html" class="active">Announcement</a>
             <a href="request-forms.html">Request Forms</a>
-            <a href="#" onclick="logoutUser()" style="color: #FFCDD2; font-weight: 600;">Logout</a>
+            <a href="#" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">Logout</a>
         </nav>
     </header>
-	
-	<div class="content-header">Announcement</div>
+    
+    <div class="content-header">Announcement</div>
 
     <div id="base"></div>
 
     <script type="module">
         import { collection, doc, addDoc, getDoc, getDocs, updateDoc, query, orderBy, Timestamp, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-        import { auth, db } from "/js/firebase.js";
+        
+        // FIX: Changed from absolute "/js/firebase.js" to relative "./js/firebase.js"
+        import { auth, db } from "./js/firebase.js";
 
         async function readValue() {
             const colRef = collection(db, "announcements");
@@ -107,8 +109,6 @@
                 voteValue = voters[existingVoteIndex]['vote'];
             }
 
-           
-
             if (voteValue == 1) {
                 upVote.className = "icon red";
                 downVote.className = "icon";
@@ -136,7 +136,7 @@
             newDiv.appendChild(newText);
 
             let newImg = document.createElement('img');
-            newImg.src = `media/images/announcement/random.jpg`; /* edit this */
+            newImg.src = `media/images/announcement/random.jpg`; 
             newImg.className = "img";
             newDiv.appendChild(newImg);
 
@@ -179,7 +179,7 @@
             
             newDiv.appendChild(newText);
 
-			base.appendChild(newDiv);
+            base.appendChild(newDiv);
             updateVote(msgData.id);
         }
 
@@ -191,20 +191,10 @@
         newText.className = "endMessage";
         newText.innerText = "Looks like you have reached the end";
         base.appendChild(newText);
-		
-	</script>
-	
+        
+    </script>
+    
     <script src="js/main.js"></script>
     <script type="module" src="js/authorization.js"></script>
 </body>
 </html>
-
-<!--
-
-Dev Notes
-
-Save images as announcement ID
-
-Remember to edit the line in the createDiv function for images to use '${msgData.id}'
-
--->

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Feed | Commu-nect</title>
+    <title>Community Network | Commu-nect</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/guard.js"></script>
 </head>
 <body>
-	
+    
     <header class="top-nav fixed">
         <div class="logo-area">
             <div class="logo-icon">C</div>
@@ -19,10 +19,10 @@
         </div>
         <nav class="nav-links">
             <a href="dashboard.html">Home</a>
-            <a href="news-feed.html" class="active">News Feed</a>
-            <a href="announcements.html">Announcement</a>
+            <a href="community-network.html" class="active">Community Network</a>
+            <a href="announcement.html">Announcement</a>
             <a href="request-forms.html">Request Forms</a>
-            <a href="#" onclick="logoutUser()" style="color: #FFCDD2; font-weight: 600;">Logout</a>
+            <a href="#" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">Logout</a>
         </nav>
     </header>
 
@@ -40,7 +40,9 @@
 
     <script type="module">
         import { collection, doc, addDoc, getDoc, getDocs, updateDoc, query, orderBy, Timestamp, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-        import { auth, db } from "/js/firebase.js";
+        
+        // FIX: Changed from absolute "/js/firebase.js" to relative "./js/firebase.js"
+        import { auth, db } from "./js/firebase.js";
 
         async function readValue() {
             const colRef = collection(db, "feed");
@@ -103,7 +105,7 @@
 
             let newVote = data['votes'];
             const voteSpan = document.getElementById(`vote-${feedID}`);
-            voteSpan.innerText = newVote;
+            if (voteSpan) voteSpan.innerText = newVote;
             
             const upVote = document.getElementById(`up-${feedID}`);
             const downVote = document.getElementById(`down-${feedID}`);
@@ -114,23 +116,23 @@
                 voteValue = voters[existingVoteIndex]['vote'];
             }
 
-           
-
-            if (voteValue == 1) {
-                upVote.className = "icon red";
-                downVote.className = "icon";
-            } else if (voteValue == -1) {
-                upVote.className = "icon";
-                downVote.className = "icon blue";
-            } else {
-                upVote.className = "icon";
-                downVote.className = "icon";
+            if (upVote && downVote) {
+                if (voteValue == 1) {
+                    upVote.className = "icon red";
+                    downVote.className = "icon";
+                } else if (voteValue == -1) {
+                    upVote.className = "icon";
+                    downVote.className = "icon blue";
+                } else {
+                    upVote.className = "icon";
+                    downVote.className = "icon";
+                }
             }
         }
 
         function createDiv (msgData) {
             let newDiv = document.createElement('div');
-            newDiv.className = "content";
+            newDiv.className = "content base-fixed"; 
             try {
                 newDiv.setAttribute("tag", msgData['tag']);
             } catch(any) {
@@ -149,7 +151,7 @@
             newDiv.appendChild(newText);
 
             let newImg = document.createElement('img');
-            newImg.src = `media/images/news feed/random.jpg`; /* edit this */
+            newImg.src = `media/images/news feed/random.jpg`; 
             newImg.className = "img";
             newDiv.appendChild(newImg);
 
@@ -192,10 +194,10 @@
             
             newDiv.appendChild(newText);
 
-            if (newDiv) {
+            if (base) {
                 base.appendChild(newDiv);
             }
-			
+            
             updateVote(msgData.id);
         }
 
@@ -214,28 +216,22 @@
                 case "urgent":
                     urgentDot.className = "dot-active";
                     break;
-                
-                
                 case "complaint":
                     complaintDot.className = "dot-active";
                     break;
-                
-                
                 case "inform":
                     informDot.className = "dot-active";
                     break;
-                
-                
             }
-            document.getElementById("base").innerHTML = "";
+            
+            if (base) {
+                base.innerHTML = "";
+            }
             loadContent();
         }
 
         function loadContent () {
-
-            if (!msgDB) {
-                return null;
-            }
+            if (!msgDB) return null;
 
             if (tag == "") {
                 msgDB.forEach(msgRow => {
@@ -243,98 +239,47 @@
                 }); 
             } else {
                 const filteredMessages = msgDB.filter(msgRow => msgRow.tag === tag);
-
                 filteredMessages.forEach(msgRow => {
                     createDiv(msgRow);
                 });
             }
 
-            
-
             let newText = document.createElement('p');
             newText.className = "endMessage";
             newText.innerText = "Looks like you have reached the end";
-            base.appendChild(newText);
+            if (base) base.appendChild(newText);
+        }
+
+        // Initialize empty base container since it was missing in the HTML skeleton
+        if (!document.getElementById('base')) {
+            const baseDiv = document.createElement('div');
+            baseDiv.id = 'base';
+            document.body.appendChild(baseDiv);
         }
 
         loadContent();
 
         let urgentTab = document.getElementById("urgentTab");
         urgentTab.addEventListener('click', () => {
-            if (tag == "urgent") {
-                tag = "";
-            } else {
-                tag = "urgent";
-            }
+            tag = (tag == "urgent") ? "" : "urgent";
             feedTag();
         });
 
         let complaintTab = document.getElementById("complaintTab");
         complaintTab.addEventListener('click', () => {
-            if (tag == "complaint") {
-                tag = "";
-            } else {
-                tag = "complaint";
-            }
+            tag = (tag == "complaint") ? "" : "complaint";
             feedTag();
         });
 
         let informTab = document.getElementById("informTab");
         informTab.addEventListener('click', () => {
-            if (tag == "inform") {
-                tag = "";
-            } else {
-                tag = "inform";
-            }
+            tag = (tag == "inform") ? "" : "inform";
             feedTag();
         });
 
-        async function createPost(myVar) {
-
-            let temp = "";
-
-            switch (myVar % 3) {
-                case 0:
-                    temp = "urgent";
-                    break;
-                
-                case 1:
-                    temp = "complaint";
-                    break;
-                
-                case 2:
-                    temp = "inform";
-                    break;
-            }
-
-            await addDoc(collection(db, "feed"), {
-                title: `Feed ${myVar}`,
-                content: `Feed content example ${myVar}`,
-                votes: myVar,
-                voters: [],
-                comments: [],
-                tag: temp,
-                createdAt: Timestamp.now()
-            });
-        }
-
-        for (let i=0; i < 0; i++) {
-            await(createPost(i));
-        }
-		
-	</script>
-	
+    </script>
+    
     <script src="js/main.js"></script>
     <script type="module" src="js/authorization.js"></script>
 </body>
 </html>
-
-<!--
-
-Dev Notes
-
-Save images as announcement ID
-
-Remember to edit the line in the createDiv function for images to use '${msgData.id}'
-
--->
