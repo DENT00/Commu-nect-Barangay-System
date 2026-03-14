@@ -1,4 +1,4 @@
-/* js/guard.js
+js/guard.js
 document.addEventListener("DOMContentLoaded", () => {
     const userRole = sessionStorage.getItem('userRole');
     const currentPage = window.location.pathname.split('/').pop();

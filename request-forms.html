@@ -18,11 +18,13 @@
             </div>
         </div>
         <nav class="nav-links">
-            <a href="dashboard.html">Home</a>
+            <a href="#">Home</a>
             <a href="#">News Feed</a>
             <a href="#">Announcement</a>
             <a href="request-forms.html" class="active">Request Forms</a>
-            <a href="#" onclick="logoutUser()" style="color: #FFCDD2; font-weight: 600;">Logout</a>
+            <a href="#" id="logout-btn" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">
+                <i class="fas fa-power-off"></i> Log out
+            </a>
         </nav>
     </header>
 
