@@ -4,12 +4,12 @@ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInW
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDX7NmAsDkBik-mbmEWqwodLUv9nQjJ65g",
-  authDomain: "commu-nect-e6bb9.firebaseapp.com",
-  projectId: "commu-nect-e6bb9",
-  storageBucket: "commu-nect-e6bb9.firebasestorage.app",
-  messagingSenderId: "589689646614",
-  appId: "1:589689646614:web:ac474ff850d276a263cf37"
+    apiKey: "AIzaSyDX7NmAsDkBik-mbmEWqwodLUv9nQjJ65g",
+    authDomain: "commu-nect-e6bb9.firebaseapp.com",
+    projectId: "commu-nect-e6bb9",
+    storageBucket: "commu-nect-e6bb9.firebasestorage.app",
+    messagingSenderId: "589689646614",
+    appId: "1:589689646614:web:ac474ff850d276a263cf37"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -172,6 +172,9 @@ window.loginUser = async () => {
     if (!loginRoleElement) return alert("Please select your role to login.");
     const loginRole = loginRoleElement.value;
 
+    // FIX 1: Clear old session data to stop the race condition
+    sessionStorage.removeItem('userRole');
+
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -199,7 +202,6 @@ window.loginUser = async () => {
                 return;
             }
 
-            // NEW FIX: Block rejected users from entering the system
             if (userData.verificationStatus === "rejected") {
                 alert("Your account application was denied by the Barangay.");
                 await signOut(auth);
@@ -208,18 +210,26 @@ window.loginUser = async () => {
 
             sessionStorage.setItem('userRole', userData.userType);
 
+            // Redirect handles correctly now
             if (userData.userType === "Barangay Official") {
                 window.location.href = "admin-dashboard.html";
             } else {
                 window.location.href = "dashboard.html";
             }
-dfefaef
+            // Removed the random "dfefaef" typo that was right here
+
         } else {
             alert("User data not found. Please contact support.");
             await signOut(auth);
         }
     } catch (error) {
-        alert("Invalid credentials. Please check your email and password.");
+        // FIX 2: Only show error popup if the login ACTUALLY failed, ignoring navigation aborts
+        console.error("Login process error:", error);
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+            alert("Invalid credentials. Please check your email and password.");
+        } else if (error.code) {
+            alert("Login Error: " + error.message);
+        }
     }
 };
 
@@ -235,25 +245,34 @@ window.sendPasswordReset = async () => {
     }
 };
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split('/').pop();
     const isAuthPage = currentPage === 'index.html' || currentPage === '';
     const activeRole = sessionStorage.getItem('userRole');
 
-    if (user && user.emailVerified && activeRole) {
-        if (isAuthPage) {
+    if (user) {
+        // STRICT CHECK: If the user is logged in but HAS NOT verified their email, kick them out
+        if (!user.emailVerified) {
+            if (!isAuthPage) {
+                await signOut(auth);
+                window.location.href = "index.html";
+            }
+            return; // Stop them from doing anything else
+        }
+
+        // If verified and has a role, auto-redirect them away from the login page
+        if (activeRole && isAuthPage) {
             if (activeRole === "Barangay Official") {
-                // Change this line from admin-verification.html to admin-dashboard.html
                 window.location.href = "admin-dashboard.html"; 
             } else {
                 window.location.href = "dashboard.html";
             }
         }
-    } else if (!user) {
+    } else {
+        // If no user is logged in, restrict to the login page
         if (!isAuthPage) window.location.href = "index.html";
     }
 });
-
 window.logoutUser = async (event) => {
     if (event) event.preventDefault();
     try {
