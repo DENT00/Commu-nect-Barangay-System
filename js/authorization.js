@@ -1,21 +1,7 @@
 // Import Firebase functions via CDN (Version 12.9.0)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
-// Your exact web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDX7NmAsDkBik-mbmEWqwodLUv9nQjJ65g",
-  authDomain: "commu-nect-e6bb9.firebaseapp.com",
-  projectId: "commu-nect-e6bb9",
-  storageBucket: "commu-nect-e6bb9.firebasestorage.app",
-  messagingSenderId: "589689646614",
-  appId: "1:589689646614:web:ac474ff850d276a263cf37"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { auth, db } from './firebase.js';
 
 function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.6) {
     return new Promise((resolve, reject) => {
