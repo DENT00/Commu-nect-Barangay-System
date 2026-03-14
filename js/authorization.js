@@ -213,7 +213,7 @@ window.loginUser = async () => {
             } else {
                 window.location.href = "dashboard.html";
             }
-
+dfefaef
         } else {
             alert("User data not found. Please contact support.");
             await signOut(auth);
@@ -243,7 +243,8 @@ onAuthStateChanged(auth, (user) => {
     if (user && user.emailVerified && activeRole) {
         if (isAuthPage) {
             if (activeRole === "Barangay Official") {
-                window.location.href = "admin-verification.html";
+                // Change this line from admin-verification.html to admin-dashboard.html
+                window.location.href = "admin-dashboard.html"; 
             } else {
                 window.location.href = "dashboard.html";
             }
