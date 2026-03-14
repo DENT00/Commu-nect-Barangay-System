@@ -32,6 +32,7 @@ body {
     background: linear-gradient(90deg, var(--dark-green) 0%, var(--primary-green) 100%);
     padding: 15px 50px; color: var(--bg-white); border-bottom: 2px solid #8CC63F;
 }
+
 .logo-area { display: flex; align-items: center; gap: 15px; }
 .logo-icon { background-color: var(--dark-green); color: var(--primary-green); padding: 10px 15px; border-radius: 8px; font-weight: 700; font-size: 24px; }
 .logo-text { line-height: 1.2; }

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="js/guard.js"></script>
+    <style>        
+        /* Footer */
+        footer a { color: var(--bg-white); text-decoration: none; font-size: 12px; font-weight: 400; }
+        footer a:hover {border-bottom: 2px solid var(--bg-white); padding-bottom: 2px;}
+    </style>
 </head>
 <body>
 
@@ -19,11 +24,14 @@
             </div>
         </div>
         <div class="nav-links">
-            <a href="dashboard.html">Home</a>
+            <a href="admin-dashboard.html">Home</a>
+            <a href="admin-verification.html" class="active">Verification</a>
             <a href="community-network.html">Community Network</a>
             <a href="announcement.html">Announcement</a>
             <a href="request-forms.html">Request Forms</a>
-            <a href="#" id="logout-btn" onclick="logoutUser(event)"><i class="fas fa-power-off"></i> Log out</a>
+            <a href="#" id="logout-btn" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">
+                <i class="fas fa-power-off"></i> Log out
+            </a>
         </div>
     </nav>
 
@@ -53,20 +61,20 @@
         </div>
     </div>
 
-    <footer class="site-footer" style="border-top-left-radius: 0;">
+    <footer class="site-footer">
         <div class="footer-top">
             <div class="footer-brand" style="flex-direction: column;">
                 <div style="display: flex; gap: 15px; align-items: center;">
-                    <div class="logo-icon" style="background:#257813;">C</div>
+                    <div class="logo-icon" style="background: var(--dark-green);">C</div>
                     <div class="logo-text">
                         <strong>Commu-nect</strong><br>
                         <span>Gen T. De Leon's Barangay Web-System</span>
                     </div>
                 </div>
                 <div class="contact-info">
-                    <p><i class="fas fa-mobile-alt" style="width: 15px; text-align: center;"></i> +63 XXX-XXX-XXXX</p>
-                    <p><i class="fas fa-phone-alt" style="width: 15px; text-align: center;"></i> 02-8XXX-XXXX</p>
-                    <p><i class="fas fa-envelope" style="width: 15px; text-align: center;"></i> gentdeleon@gmail.com</p>
+                    <p><i class="fas fa-mobile-alt" style="width:15px;text-align:center;"></i> +63 XXX-XXX-XXXX</p>
+                    <p><i class="fas fa-phone-alt" style="width:15px;text-align:center;"></i> 02-8XXX-XXXX</p>
+                    <p><i class="fas fa-envelope" style="width:15px;text-align:center;"></i> gentdeleon@gmail.com</p>
                 </div>
                 <p style="font-size: 9px; margin-top: 30px; opacity: 0.8;">©2026 Commu-nect. All Rights Reserved.</p>
             </div>
@@ -74,11 +82,12 @@
             <div class="footer-links-container">
                 <h4>Quick Link</h4>
                 <ul>
-                    <li>Home</li>
-                    <li>News Feed</li>
-                    <li>Announcements</li>
-                    <li>Request Forms</li>
-                    <li>About Us</li>
+                    <li><a href="admin-dashboard.html">Home</a></li>
+                    <li><a href="admin-verification.html">Verification</a></li>
+                    <li><a href="news-feed.html">News Feed</a></li>
+                    <li><a href="announcements.html">Announcements</a></li>
+                    <li><a href="request-forms.html">Request Forms</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
                 </ul>
             </div>
 
