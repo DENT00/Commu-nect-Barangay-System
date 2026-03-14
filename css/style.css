@@ -577,11 +577,6 @@ body {
     padding: 14px 10px;
 }
 
-.feed-base {
-    margin-top: 180px;
-    width: 100%;
-}
-
 .feed-tab {
     display: flex;
     align-items: center;
