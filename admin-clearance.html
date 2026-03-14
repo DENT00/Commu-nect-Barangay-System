@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta charset="UTF-8">
+            <title>Brgy. Gen T. De Leon: Clearance Review</title>
+            <link rel="stylesheet" href="admin-clearance.css">
+            <script src="js/guard.js"></script>
+        </head>
+
+        <body>
+
+        <header class="top-nav">
+            <div class="logo-area">
+                <div class="logo-icon">C</div>
+                <div class="logo-text">
+                    <strong>Commu-nect</strong><br>
+                    <span>Gen T. De Leon</span>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="dashboard.html">Home</a>
+                <a href="#">News Feed</a>
+                <a href="#">Announcement</a>
+                <a href="request-forms.html" class="active">Request Forms</a>
+                <a href="#" onclick="logoutUser()" style="color:#FFCDD2;font-weight:600;">Logout</a>
+            </nav>
+        </header>
+
+        <div class="container">
+
+            <h2>Clearance</h2>
+
+            <div class="table-container">
+
+                <table class="clearance-table">
+
+               <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>B-Day</th>
+                        <th>Years of living</th>
+                        <th>Email Address</th>
+                        <th>Purpose</th>
+                        <th>Patient</th>
+                        <th>Deceased</th>
+                        <th>Student</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <script type="module" src="admin-clearance.js"></script>
+
+        <script>
+            (function(){
+            emailjs.init("DPWCQhOxzXHuAxJlq");
+            })();
+        </script>
+
+        </body>
+</html>

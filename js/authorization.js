@@ -1,14 +1,6 @@
 // Import Firebase functions via CDN (Version 12.9.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  sendEmailVerification, 
-  signInWithEmailAndPassword, 
-  deleteUser, 
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {

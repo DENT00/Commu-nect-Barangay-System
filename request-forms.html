@@ -69,68 +69,121 @@
 
         <section class="form-section">
             <div class="tabs">
-                <button class="tab-btn" onclick="openTab(event, 'brgy-id')">Barangay ID</button>
-                <button class="tab-btn active" onclick="openTab(event, 'clearance')">Clearance</button>
-                <button class="tab-btn" onclick="openTab(event, 'business')">Business Permit</button>
-                <button class="tab-btn" onclick="openTab(event, 'jobseeker')">First Time Jobseeker/Oath of Undertaking</button>
+                <button class="tab-btn active" onclick="openForm(event, 'clearance')">Clearance</button>
+                <button class="tab-btn" onclick="openForm(event, 'jobseeker')">First Time Jobseeker/Oath of Undertaking</button>
             </div>
             
             <div class="form-card">
-                <form id="clearance" class="tab-content active">
+                <form id="clearanceForm" class="tab-content active" style="display:block">
                     <div class="form-grid-2">
                         <div class="input-group">
                             <label>Name</label>
-                            <input type="text" placeholder="First name, MI, Last name">
+                            <input type="text" id="name" placeholder="First name, MI, Last name" required>
                         </div>
                         <div class="input-group">
                             <label>Address</label>
-                            <input type="text">
+                            <input type="text" id="address" required>
                         </div>
                     </div>
 
-                    <div class="form-grid-3">
+                    <div class="form-grid-4">
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="text" id="email" style="width: 300px;" required>
+                        </div>
                         <div class="input-group">
                             <label>Age</label>
-                            <input type="text" style="width: 80px;">
+                            <input type="number" id="age" style="width: 80px;" required>
                         </div>
                         <div class="input-group">
                             <label>B-Day</label>
-                            <input type="text" placeholder="MM/DD/YYYY">
+                            <input type="date" id="bday" placeholder="MM/DD/YYYY" required>
                         </div>
                         <div class="input-group">
                             <label>Anong taon tumira sa Gen. T</label>
-                            <input type="text" placeholder="YYYY" style="width: 120px;">
+                            <input type="number" id="yearsLiving" placeholder="YYYY" style="width: 120px;" required>
                         </div>
                     </div>
 
                     <div class="form-grid-1">
                         <div class="input-group">
                             <label>Saan gagamitin:</label>
-                            <input type="text">
+                            <input type="text" id="purpose" required>
                         </div>
                     </div>
 
                     <div class="form-grid-2">
                         <div class="input-group">
-                            <label>Pasyente:</label>
-                            <input type="text">
+                            <label>Pasyente (if medical purpose):</label>
+                            <input type="text" id="patient">
                         </div>
                         <div class="input-group">
-                            <label>Namayapa:</label>
-                            <input type="text">
+                            <label>Namayapa (if funeral purpose):</label>
+                            <input type="text" id="deceased">
                         </div>
                         <div class="input-group">
                             <label>Estudyante:</label>
-                            <input type="text">
+                            <input type="text" id="student">
                         </div>
                     </div>
 
-                    <button type="button" class="btn-green" style="margin-top: 20px;">Submit</button>
+                    <button type="button" id="submitClearance" class="btn-green">Submit</button>
                 </form>
 
-                <form id="brgy-id" class="tab-content"><p>Barangay ID Form goes here...</p></form>
-                <form id="business" class="tab-content"><p>Business Permit Form goes here...</p></form>
-                <form id="jobseeker" class="tab-content"><p>Jobseeker Form goes here...</p></form>
+                <form id="jobseekerForm" class="tab-content" style="display:none">
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label>Name</label>
+                            <input type="text" id="job_name" placeholder="First name, MI, Last name" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Address</label>
+                            <input type="text" id="job_address" required>
+                        </div>
+                    </div>
+                    <div class="form-grid-4">
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="text" id="job_email" style="width: 300px;" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Age</label>
+                            <input type="text" id="job_age" style="width: 80px;" required>
+                        </div>
+                        <div class="input-group">
+                            <label>B-Day</label>
+                            <input type="date" id="job_bday" placeholder="MM/DD/YYYY" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Sex</label>
+                            <input type="text" id="job_sex" placeholder="YYYY" style="width: 120px;" required>
+                        </div>
+                    </div>
+                    <div class="form-grid-1">
+                        <div class="input-group">
+                            <label>School</label>
+                            <input type="text" id="job_school" required>
+                        </div>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="input-group">
+                            <label>School Level</label>
+                            <input type="text" id="job_schoolLevel">
+                        </div>
+                        <div class="input-group">
+                            <label>Course/Strand</label>
+                            <input type="text" id="job_course">
+                        </div>
+                    </div>
+                    <button type="button" id="submitJobseeker" class="btn-green">Submit</button>
+                </form>
+                <!-- Success Modal -->
+                <div id="successModal" class="modal">
+                    <div class="modal-content">
+                    <h2>Request Submitted</h2>
+                    <p>Your Jobseeker/Oath Taking request has been sent to the barangay office.</p>
+                    <button onclick="closeModal()">OK</button>
+                </div>
             </div>
         </section>
     </main>
@@ -140,5 +193,7 @@
 
     <script src="js/main.js"></script>
     <script type="module" src="js/authorization.js"></script>
+    <script type="module" src="js/clearance.js"></script>
+    <script type="module" src="js/jobseeker.js"></script>
 </body>
 </html>
