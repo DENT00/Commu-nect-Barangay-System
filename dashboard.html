@@ -9,11 +9,36 @@
     <script src="js/guard.js"></script>
     <style>
         /* Banner */
-        .banner-wrapper {
-            position: relative;
+        .banner {
+            background-image: linear-gradient(rgba(43, 97, 18, 0.65), rgba(0, 0, 0, 0.55)), 
+                            url("media/images/banner.jpg");
+            background-size: cover;
+            background-position: center;
+            height: calc(100vh - 88.4px);
+            width: calc(100vw - 15.2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .banner-content {
-            
+            text-align: center;
+            color: #ffffff;
+            padding: 0 20px;
+            max-width: 750px;
+        }
+        .banner-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
+        }
+        .banner-content p {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.8;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0.92;
         }
         
         /* Footer */
@@ -42,8 +67,16 @@
         </nav>
     </header>
 
-    <div class="banner-wrapper">
-        <div class="banner-content, gray-banner"></div>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Welcome to Barangay Gen. T. De Leon</h1>
+            <p>
+                Barangay General Timoteo De Leon is a vibrant community located in the 
+                City of Valenzuela, Metro Manila. Home to thousands of hardworking residents, 
+                our barangay is committed to delivering efficient, transparent, and 
+                accessible public services for every member of our community.
+            </p>
+        </div>
     </div>
 
     <main class="dashboard-container">
@@ -108,7 +141,7 @@
             <div class="footer-links-container">
                 <h4>Quick Link</h4>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Home</a></li>
                     <li><a href="news-feed.html">News Feed</a></li>
                     <li><a href="announcements.html">Announcements</a></li>
                     <li><a href="request-forms.html">Request Forms</a></li>
