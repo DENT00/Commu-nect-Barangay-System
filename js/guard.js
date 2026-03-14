@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "upload-announcement.html",   
             "request-forms.html",         
             "admin-clearance.html",       
-            "admin-oath-undertaking.html" 
+            "admin-jobseeker.html" 
         ],
         "Resident": [
             "dashboard.html", 
