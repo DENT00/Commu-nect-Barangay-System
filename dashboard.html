@@ -39,11 +39,196 @@
             line-height: 1.8;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
             opacity: 0.92;
+            margin-bottom: 32px;
         }
-        
+
+        /* Banner Buttons */
+        .banner-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-banner-primary {
+            background-color: var(--primary-green);
+            color: #fff;
+            border: none;
+            padding: 13px 36px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(114, 192, 23, 0.4);
+        }
+        .btn-banner-primary:hover {
+            background-color: #5aa010;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(114, 192, 23, 0.5);
+        }
+
+        .btn-banner-outline {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.85);
+            padding: 12px 36px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+        .btn-banner-outline:hover {
+            background-color: rgba(255,255,255,0.15);
+            border-color: #fff;
+            transform: translateY(-2px);
+        }
+
         /* Footer */
         footer a { color: var(--bg-white); text-decoration: none; font-size: 12px; font-weight: 400; }
         footer a:hover {border-bottom: 2px solid var(--bg-white); padding-bottom: 2px;}
+
+        /* ── Social Media Section ── */
+        .socmed-section {
+            max-width: 1100px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .socmed-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 6px;
+        }
+
+        .socmed-section .section-sub {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 28px;
+        }
+
+        .socmed-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .socmed-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .socmed-grid { grid-template-columns: 1fr; }
+        }
+
+        .socmed-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .socmed-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.11);
+        }
+
+        /* Coloured banner area per platform */
+        .socmed-card-banner {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .socmed-card-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.12);
+        }
+
+        .socmed-card-banner i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .socmed-card-banner.facebook  { background: linear-gradient(135deg, #1877F2, #0d5abf); }
+        .socmed-card-banner.youtube   { background: linear-gradient(135deg, #FF0000, #c00000); }
+        .socmed-card-banner.twitter   { background: linear-gradient(135deg, #1DA1F2, #0d85cc); }
+        .socmed-card-banner.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+
+        .socmed-card-body {
+            padding: 18px 20px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .socmed-card-body .platform-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .socmed-card-body .platform-handle {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .socmed-card-body .platform-desc {
+            font-size: 12px;
+            color: #555;
+            line-height: 1.5;
+            margin-top: 4px;
+            flex: 1;
+        }
+
+        .socmed-card-body .platform-cta {
+            margin-top: 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary-green);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: gap 0.2s;
+        }
+
+        .socmed-card:hover .platform-cta {
+            gap: 8px;
+        }
+
+        /* platform accent dots */
+        .dot-fb   { background: #1877F2; width:8px; height:8px; border-radius:50%; display:inline-block; }
+        .dot-yt   { background: #FF0000; width:8px; height:8px; border-radius:50%; display:inline-block; }
+        .dot-tw   { background: #1DA1F2; width:8px; height:8px; border-radius:50%; display:inline-block; }
+        .dot-ig   { background: #bc1888; width:8px; height:8px; border-radius:50%; display:inline-block; }
     </style>
 </head>
 <body>
@@ -64,7 +249,7 @@
             <a href="#" id="logout-btn" onclick="logoutUser(event)" style="color: #FFCDD2; font-weight: 600;">
                 <i class="fas fa-power-off"></i> Log out
             </a>
-        </nav>
+        </div>
     </header>
 
     <div class="banner">
@@ -76,46 +261,126 @@
                 our barangay is committed to delivering efficient, transparent, and 
                 accessible public services for every member of our community.
             </p>
+            <div class="banner-buttons">
+                <a href="about-us.html" class="btn-banner-primary">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+                <a href="hotline.html" class="btn-banner-outline">
+                    <i class="fas fa-phone-alt"></i> Hotline
+                </a>
+            </div>
         </div>
     </div>
 
-    <main class="dashboard-container">
-        <h1>Barangay Dashboard</h1>
-        
-        <div class="cards-grid">
-            <div class="feature-card">
-                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                <h3>Request Forms</h3>
-                <p>You can now request official barangay forms such as; Clearance, Business Permit, Barangay ID</p>
-                <button class="btn-green" onclick="window.location.href='request-forms.html'">Request</button>
-            </div>
+    <main>
+        <div class="dashboard-container">
+            <h1>Barangay Dashboard</h1>
+            
+            <div class="cards-grid">
+                <div class="feature-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <h3>Request Forms</h3>
+                    <p>You can now request official barangay forms such as; Clearance, Business Permit, Barangay ID</p>
+                    <button class="btn-green" onclick="window.location.href='request-forms.html'">Request</button>
+                </div>
 
-            <div class="feature-card">
-                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                </svg>
-                <h3>Announcements</h3>
-                <p>Check your barangay's official statements, events, and more!</p>
-                <button class="btn-green">Check</button>
-            </div>
+                <div class="feature-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    <h3>Announcements</h3>
+                    <p>Check your barangay's official statements, events, and more!</p>
+                    <button class="btn-green" onclick="window.location.href='announcement.html'">Check</button>
+                </div>
 
-            <div class="feature-card">
-                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-                    <rect x="8" y="8" width="8" height="8"></rect>
-                    <line x1="4" y1="12" x2="20" y2="12"></line>
-                    <line x1="12" y1="4" x2="12" y2="20"></line>
-                </svg>
-                <h3>News Feed</h3>
-                <p>Don't miss out the "latest community happenings!" You can now publicly report all the problems that needs fixing.</p>
-                <button class="btn-green">Report</button>
+                <div class="feature-card">
+                    <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                        <rect x="8" y="8" width="8" height="8"></rect>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                    <h3>News Feed</h3>
+                    <p>Don't miss out the "latest community happenings!" You can now publicly report all the problems that needs fixing.</p>
+                    <button class="btn-green" onclick="window.location.href='community-network.html'">Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Social Media Section ── -->
+        <div class="socmed-section">
+            <h2>Follow Us Online</h2>
+            <p class="section-sub">Stay connected with Barangay Gen. T. De Leon on our official social media channels.</p>
+
+            <div class="socmed-grid">
+
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/profile.php?id=61550950657692" target="_blank" rel="noopener" class="socmed-card">
+                    <div class="socmed-card-banner facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="socmed-card-body">
+                        <span class="platform-name">
+                            <span class="dot-fb"></span> Facebook
+                        </span>
+                        <span class="platform-handle">@BrgyGenTDeLeon</span>
+                        <p class="platform-desc">Official announcements, community events, and barangay updates straight to your feed.</p>
+                        <span class="platform-cta">Visit Page <i class="fas fa-arrow-right" style="font-size:10px;"></i></span>
+                    </div>
+                </a>
+
+                <!-- YouTube -->
+                <a href="https://youtube.com" target="_blank" rel="noopener" class="socmed-card">
+                    <div class="socmed-card-banner youtube">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="socmed-card-body">
+                        <span class="platform-name">
+                            <span class="dot-yt"></span> YouTube
+                        </span>
+                        <span class="platform-handle">Brgy. Gen. T. De Leon Official</span>
+                        <p class="platform-desc">Watch live sessions, barangay programs, and recorded public hearings anytime.</p>
+                        <span class="platform-cta">Watch Now <i class="fas fa-arrow-right" style="font-size:10px;"></i></span>
+                    </div>
+                </a>
+
+                <!-- X / Twitter -->
+                <a href="https://twitter.com" target="_blank" rel="noopener" class="socmed-card">
+                    <div class="socmed-card-banner twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div class="socmed-card-body">
+                        <span class="platform-name">
+                            <span class="dot-tw"></span> X (Twitter)
+                        </span>
+                        <span class="platform-handle">@BrgyGenTDeLeon</span>
+                        <p class="platform-desc">Quick updates, alerts, and real-time announcements from the barangay office.</p>
+                        <span class="platform-cta">Follow Us <i class="fas fa-arrow-right" style="font-size:10px;"></i></span>
+                    </div>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="socmed-card">
+                    <div class="socmed-card-banner instagram">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="socmed-card-body">
+                        <span class="platform-name">
+                            <span class="dot-ig"></span> Instagram
+                        </span>
+                        <span class="platform-handle">@brgyGTDL</span>
+                        <p class="platform-desc">Photos from barangay events, community highlights, and stories from our residents.</p>
+                        <span class="platform-cta">See Photos <i class="fas fa-arrow-right" style="font-size:10px;"></i></span>
+                    </div>
+                </a>
+
             </div>
         </div>
     </main>
