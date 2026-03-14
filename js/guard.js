@@ -7,14 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
+    // --- FIX 1: Dynamic Home Link Routing ---
+    // Automatically change the "Home" link to the admin dashboard for officials
+    if (userRole === "Barangay Official") {
+        document.querySelectorAll('a[href="dashboard.html"]').forEach(link => {
+            link.href = "admin-dashboard.html";
+        });
+    }
+
     const rolePermissions = {
         "Barangay Official": [
             "admin-dashboard.html", 
             "admin-verification.html", 
             "announcement.html",
-            "announcements.html", // Added support for plural name
+            "announcements.html", 
             "community-network.html",
-            "news-feed.html",     // Added support for alternate name
+            "news-feed.html",     
             "upload-announcement.html",   
             "request-forms.html",         
             "admin-clearance.html",       
@@ -23,9 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "Resident": [
             "dashboard.html", 
             "announcement.html",
-            "announcements.html", // Added support for plural name
+            "announcements.html", 
             "community-network.html",
-            "news-feed.html",     // Added support for alternate name
+            "news-feed.html",     
             "community-upload.html",      
             "request-forms.html",         
             "clearance-form.html",        
@@ -34,24 +42,29 @@ document.addEventListener("DOMContentLoaded", () => {
         "Non-Resident": [
             "dashboard.html", 
             "announcement.html",
-            "announcements.html", // Added support for plural name
+            "announcements.html", 
             "community-network.html",
-            "news-feed.html",     // Added support for alternate name
-            "request-forms.html"  // Allowed per TODO Phase 3 (Clearance/Business)
+            "news-feed.html",     
+            "request-forms.html"  
         ]
     };
-
-    // --- Hide Restricted UI Elements for Non-Residents ---
-    if (userRole === "Non-Resident") {
-        // We hide specific restricted elements instead of the whole page link
-        // You can hide the "Barangay ID" tab inside request-forms.html specifically
-    }
 
     if (userRole && currentPage !== 'index.html' && currentPage !== '') {
         const allowedPages = rolePermissions[userRole] || [];
         
-        // If the current file isn't in the role's list, block access
         if (!allowedPages.includes(currentPage)) {
+            
+            // --- FIX 2: Silent Redirects for Dashboard Mix-ups (Anti-Flash) ---
+            if (userRole === "Barangay Official" && currentPage === "dashboard.html") {
+                window.location.replace("admin-dashboard.html");
+                return; // Stop execution, do not show the modal
+            }
+            if (userRole !== "Barangay Official" && currentPage === "admin-dashboard.html") {
+                window.location.replace("dashboard.html");
+                return; // Stop execution, do not show the modal
+            }
+
+            // Create the lock screen for genuine unauthorized access
             document.body.style.overflow = 'hidden';
 
             const overlay = document.createElement('div');
@@ -77,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.style.fontFamily = 'Arial, sans-serif';
             modal.style.maxWidth = '400px';
 
-            // Fixed: Modal message now describes the actual page being blocked
             const friendlyPageName = currentPage.replace('.html', '').replace('-', ' ');
             modal.innerHTML = `
                 <i class="fas fa-lock" style="font-size: 40px; color: #d9534f; margin-bottom: 15px;"></i>

@@ -245,24 +245,34 @@ window.sendPasswordReset = async () => {
     }
 };
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split('/').pop();
     const isAuthPage = currentPage === 'index.html' || currentPage === '';
     const activeRole = sessionStorage.getItem('userRole');
 
-    if (user && user.emailVerified && activeRole) {
-        if (isAuthPage) {
+    if (user) {
+        // STRICT CHECK: If the user is logged in but HAS NOT verified their email, kick them out
+        if (!user.emailVerified) {
+            if (!isAuthPage) {
+                await signOut(auth);
+                window.location.href = "index.html";
+            }
+            return; // Stop them from doing anything else
+        }
+
+        // If verified and has a role, auto-redirect them away from the login page
+        if (activeRole && isAuthPage) {
             if (activeRole === "Barangay Official") {
                 window.location.href = "admin-dashboard.html"; 
             } else {
                 window.location.href = "dashboard.html";
             }
         }
-    } else if (!user) {
+    } else {
+        // If no user is logged in, restrict to the login page
         if (!isAuthPage) window.location.href = "index.html";
     }
 });
-
 window.logoutUser = async (event) => {
     if (event) event.preventDefault();
     try {
