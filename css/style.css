@@ -560,7 +560,7 @@ body {
     text-align: center;
 }
 
-/* New Feed */
+/* Start of Announcement And News Feed */
 .feed-bg {
     background: #fff;
     width: 100%;
@@ -575,6 +575,11 @@ body {
     justify-content: space-around;
     align-items: center;
     padding: 14px 10px;
+}
+
+.feed-base {
+    margin-top: 180px;
+    width: 100%;
 }
 
 .feed-tab {
