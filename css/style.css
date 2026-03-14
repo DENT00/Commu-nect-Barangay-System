@@ -148,7 +148,7 @@ body {
 
 /* --- Dashboard --- */
 .gray-banner { background-color: var(--gray-banner); height: 220px; width: 100%; }
-.dashboard-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; }
+.dashboard-container { max-width: 1100px; margin: 60px auto 40px; padding: 0 20px; flex: 1; width: 100%; }
 .dashboard-container h1 { font-size: 24px; font-weight: 500; margin-bottom: 30px; }
 .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
 .feature-card { background: var(--bg-white); border: 1px solid #EAEAEA; border-radius: 16px; padding: 40px 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); display: flex; flex-direction: column; align-items: flex-start; transition: transform 0.2s ease, box-shadow 0.2s ease; }
