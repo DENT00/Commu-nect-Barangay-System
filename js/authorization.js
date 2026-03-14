@@ -209,7 +209,7 @@ window.loginUser = async () => {
             sessionStorage.setItem('userRole', userData.userType);
 
             if (userData.userType === "Barangay Official") {
-                window.location.href = "admin-verification.html";
+                window.location.href = "admin-dashboard.html";
             } else {
                 window.location.href = "dashboard.html";
             }
