@@ -1,22 +1,6 @@
-// Import Firebase functions via CDN (Version 12.9.0)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
-// Your exact web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyD30sheL6HR5q95MxMRvqVWT_9ON3ML6uk",
-    authDomain: "commu-nect.firebaseapp.com",
-    projectId: "commu-nect",
-    storageBucket: "commu-nect.firebasestorage.app",
-    messagingSenderId: "67056180570",
-    appId: "1:67056180570:web:af9fbad96687feecd82763"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, deleteUser, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { auth, db } from './firebase.js';
 
 // --- Process 1.0: Account Registration ---
 window.registerUser = async () => {
